@@ -1,0 +1,15 @@
+REQUISITOS
+
+1. Adicionar gastos com uma descrição em texto
+
+2. Adicionar ganhos com uma descrição em texto
+
+3. Ter contas para separar onde o dinheiro está
+3.1 cada conta terá um tipo:
+    1-Dinheiro
+    2-Banco Inter
+    3-PicPay
+    4-Caixa
+3.2 É necessário criar uma conta antes de adicionar algum ganho ou retirada
+
+4. Precisa mostrar o saldo da conta designada como padrão

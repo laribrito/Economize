@@ -1,0 +1,5 @@
+#pasta de cache do python
+__pycache__
+
+#arquivo de texto com links para espaços de trabalho online
+.links.txt

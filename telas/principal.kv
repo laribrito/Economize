@@ -1,0 +1,31 @@
+#:kivy 2.0.0
+#:include telas/config.kivy
+<Principal>:
+    setMensagem: setMensagem
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            text:'Saldo'
+        Label:
+            id: setMensagem
+        Button:
+            text:'Adiciona ganho'
+            on_press:
+                root.manager.current="adicionaGanho"
+                root.manager.transition.direction="left"
+                #left para entrar na página
+                #right para sair
+        Button:
+            text:'Adiciona retirada'
+            on_press:
+                root.manager.current="adicionaRetirada"
+                root.manager.transition.direction="left"
+                #left para entrar na página
+                #right para sair
+        Button:
+            text:'Adiciona conta'
+            on_press:
+                root.manager.current="adicionaConta"
+                root.manager.transition.direction="left"
+                #left para entrar na página
+                #right para sair

@@ -1,0 +1,30 @@
+#:kivy 2.0.0
+#:include telas/config.kv 
+<AdicionaConta>:
+    setMensagem: setMensagem
+    BoxLayout:
+        orientation:'vertical'
+        Label:
+            text:'Nova Conta'
+        Label:
+            text:'Nome:'
+        TextInput:
+            id: getNome
+        Label:
+            text: "Tipo:"
+        #Talvez esse input mude para um droplist
+        TextInput:
+            id: getTipo
+        Label:
+            id: setMensagem
+        Button:
+            text:'Adicionar'
+            on_press:
+                root.cadastraConta(getNome.text,getTipo.text)
+        Button:
+            text:'Cancelar'
+            on_press:
+                root.manager.current="principal"
+                root.manager.transition.direction="right"
+                #left para entrar na página
+                #right para sair
