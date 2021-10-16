@@ -2,10 +2,16 @@
 #:include telas/config.kivy
 <Principal>:
     setMensagem: setMensagem
+    setSaldo: setSaldo
+    setConta: setConta
     BoxLayout:
         orientation:'vertical'
         Label:
-            text:'Saldo'
+            id: setSaldo
+            text:'Olá!'
+        Label:
+            id: setConta
+            text:''
         Label:
             id: setMensagem
         Button:
