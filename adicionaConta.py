@@ -15,7 +15,7 @@ class AdicionaConta(Screen):
     #elementos da interface
     setMensagem = ObjectProperty(None)
 
-    def cadastraConta(self, nome, tipo):
+    def cadastraConta(self, nome, tipo, padrao):
         valido = True
 
         #ERRO: já existe uma conta com o nome informado
@@ -44,8 +44,9 @@ class AdicionaConta(Screen):
         #SUCESSO
         if valido:
             db.cria_conta(nome,tipo)
-            #guarda a conta que foi criada como conta padrão
-            AppConfig.set_config("contaPadrao", nome)
+            if padrao:
+                #guarda a conta que foi criada como conta padrão
+                AppConfig.set_config("contaPadrao", nome)
             #muda para a tela inicial
             self.manager.current="principal"
             self.manager.transition.direction = "right"

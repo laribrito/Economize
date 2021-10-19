@@ -2,6 +2,7 @@
 #:include telas/config.kv 
 <AdicionaConta>:
     setMensagem: setMensagem
+    getPadrao: getPadrao
     BoxLayout:
         orientation:'vertical'
         Label:
@@ -15,12 +16,18 @@
         #Talvez esse input mude para um droplist
         TextInput:
             id: getTipo
+        GridLayout:
+            cols: 2
+            CheckBox:
+                id: getPadrao
+            Label:
+                text:'Tornar conta padrão'
         Label:
             id: setMensagem
         Button:
             text:'Adicionar'
             on_press:
-                root.cadastraConta(getNome.text,getTipo.text)
+                root.cadastraConta(getNome.text,getTipo.text, getPadrao.active)
         Button:
             text:'Cancelar'
             on_press:
