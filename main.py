@@ -16,6 +16,8 @@ class MyApp(App):
         sm.add_widget(AdicionaRetirada(name="adicionaRetirada"))
         from adicionaConta import AdicionaConta
         sm.add_widget(AdicionaConta(name="adicionaConta"))
+        from alternaConta import AlternaConta
+        sm.add_widget(AlternaConta(name="alternaConta"))
         return sm
 
 if __name__ == "__main__":

@@ -11,5 +11,6 @@ REQUISITOS
     3-PicPay
     4-Caixa
 3.2 É necessário criar uma conta antes de adicionar algum ganho ou retirada
+3.3 É possível alterar a conta padrão
 
 4. Precisa mostrar o saldo da conta designada como padrão
