@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 
+#carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaConta.kv")
 
 #importa o banco de dados

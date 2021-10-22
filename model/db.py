@@ -53,6 +53,12 @@ def retorna_conta_nome(nome):
     con = get_db()
     return con.execute("SELECT * FROM contas WHERE nome = ?", [nome]).fetchone()
 
+#remove uma conta pelo nome
+def remove_conta_nome(nome):
+    con = get_db()
+    con.execute("DELETE * FROM contas WHERE nome = ?", [nome])
+    con.commit
+
 #atualiza o valor do saldo
 def atualiza_saldo(valor, id):
     con = get_db()
