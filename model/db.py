@@ -38,6 +38,10 @@ Tipos:
     2-Conta bancária
     3-Investimento
 """
+#retorna todas as contas cadastradas
+def retorna_contas():
+    con = get_db()
+    return con.execute("SELECT * FROM contas").fetchall()
 
 # #retorna uma conta pelo id
 # def retorna_conta_id(id):
