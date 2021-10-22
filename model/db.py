@@ -30,7 +30,7 @@ def close(db):
 #criar uma conta
 def cria_conta(nome,tipo):
     con = get_db()
-    con.execute("INSERT INTO contas VALUES (NULL,?,?,0)", [nome, tipo])
+    con.execute("INSERT INTO contas (nome, tipo) VALUES (?,?)", [nome, tipo])
     con.commit()
 """
 Tipos:
