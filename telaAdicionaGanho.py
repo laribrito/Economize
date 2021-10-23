@@ -18,11 +18,6 @@ class AdicionaGanho(Screen):
 
     def adicionaGanho(self, valor, descricao):
         valido = True
-
-        #ERRO: algum campo vazio
-        if valor == "" or descricao == "":
-            self.setMensagem.text = "Preencha todos os campos."
-            valido = False
         
         #ERRO: 'valor' não é um número
         try:
@@ -31,6 +26,11 @@ class AdicionaGanho(Screen):
             self.setMensagem.text = "Valor inválido. Digite somente números."
             valido = False
         
+        #ERRO: algum campo vazio
+        if valor == "" or descricao == "":
+            self.setMensagem.text = "Preencha todos os campos."
+            valido = False
+            
         #SUCESSO
         if valido:
             #Busca o id da conta
