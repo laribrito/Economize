@@ -1,5 +1,4 @@
 import sqlite3
-from model.G import g
 
 """
 Esse arquivo contém os códigos da 
@@ -9,21 +8,23 @@ dessas contas
 """
 
 #################################BANCO DE DADOS############################
-
-#abre o banco de dados
+dataCon=None
+#Abre o banco de dados
 def get_db():
-    if "db" not in g:
-        #se a conexão não existir, cria uma nova 
+    global dataCon
+    if dataCon != None:
+        #Já tem uma conexão
+        return dataCon
+    else:
+        #Não tem conexão
         db = sqlite3.connect("model/dados.db")
-        #adiciona a conexão na variável global
-        g["db"]=db
-    return g["db"]
+        #Armazena na variável global
+        dataCon = db
+        return db   
 
 #fecha o banco de dados 
 def close(db):
-    db = g.pop('db', None)
-    if db is not None:
-        db.close()
+    db.close()
 
 #################################CONTA#####################################
 
@@ -60,9 +61,26 @@ def remove_conta_nome(id):
     con.commit()
 
 #atualiza o valor do saldo
-def atualiza_saldo(valor, id):
+def atualiza_saldo(idConta):
+    #Soma todos os ganhos relacionados a essa conta
+    ganhos = retorna_ganhos_id(idConta)
+    ganho=0
+    if ganhos != None: 
+        for item in ganhos:
+            ganho += item[1]
+
+    #Soma todos as retiradas relacionados a essa conta
+    retiradas = retorna_retiradas_id(idConta)
+    retirada=0
+    if ganhos != None:
+        for item in retiradas:
+            retirada += item[1]
+
+    #Calcula o saldo
+    saldo = ganho - retirada
+    saldo = float(saldo)
     con = get_db()
-    con.execute("UPDATE conta SET saldo = ? WHERE id_conta = ?", [valor, id])
+    con.execute("UPDATE contas SET saldo = ? WHERE id_conta = ?", [saldo, idConta])
     con.commit()
 
     
@@ -71,11 +89,21 @@ def atualiza_saldo(valor, id):
 #adiciona ganho
 def adiciona_ganho(valor, descricao, conta):
     con = get_db()
-    con.execute("INSERT INTO ganhos VALUES (NULL, ?, ?)", [valor, descricao, conta])
-    atualiza_saldo(valor,conta)
+    con.execute("INSERT INTO ganhos VALUES (NULL, ?, ?, ?)", [valor, descricao, conta])
+    atualiza_saldo(conta)
+
+#retorna ganhos de uma conta
+def retorna_ganhos_id(conta):
+    con = get_db()
+    return con.execute("SELECT * FROM ganhos WHERE id_conta=?", [conta]).fetchall()
 
 #adiciona retirada
 def adiciona_retirada(valor, descricao, conta):
     con = get_db()
-    con.execute("INSERT INTO retiradas VALUES (NULL, ?, ?)", [valor, descricao, conta])
-    atualiza_saldo(valor,conta)
+    con.execute("INSERT INTO retiradas VALUES (NULL, ?, ?, ?)", [valor, descricao, conta])
+    atualiza_saldo(conta)
+
+#retorna retiradas de uma conta
+def retorna_retiradas_id(conta):
+    con = get_db()
+    return con.execute("SELECT * FROM retiradas WHERE id_conta=?", [conta]).fetchall()
