@@ -15,6 +15,9 @@ class AdicionaConta(Screen):
 
     #elementos da interface
     setMensagem = ObjectProperty(None)
+    getNome = ObjectProperty(None)
+    getPadrao = ObjectProperty(None)
+    getTipo = ObjectProperty(None)
 
     def cadastraConta(self, nome, tipo, padrao):
         valido = True
@@ -48,6 +51,11 @@ class AdicionaConta(Screen):
             if padrao:
                 #guarda a conta que foi criada como conta padrão
                 AppConfig.set_config("contaPadrao", nome)
+
+            self.getNome.text = ""
+            self.getTipo.text = ""
+            self.getPadrao.active = False
+
             #muda para a tela inicial
             self.manager.current="principal"
             self.manager.transition.direction = "right"

@@ -15,6 +15,8 @@ class AdicionaGanho(Screen):
 
     #elementos da interface
     setMensagem = ObjectProperty(None)
+    getValor = ObjectProperty(None)
+    getDescricao = ObjectProperty(None)
 
     def adicionaGanho(self, valor, descricao):
         valido = True
@@ -39,6 +41,10 @@ class AdicionaGanho(Screen):
             #Banco de dados
             db.adiciona_ganho(valor,descricao, conta[0])
             
+            #Limpa a tela do formulário
+            self.getDescricao.text = ""
+            self.getValor.text = ""
+
             #Volta para a página inicial
             self.manager.current = "principal"
             self.manager.transition.direction = "right"

@@ -12,8 +12,11 @@ from model import db
 from appConfig import AppConfig
 
 class AdicionaRetirada(Screen):
+    
     #elementos da interface
     setMensagem = ObjectProperty(None)
+    getValor = ObjectProperty(None)
+    getDescricao = ObjectProperty(None)
 
     def adicionaRetirada(self, valor, descricao):
         valido = True
@@ -44,6 +47,10 @@ class AdicionaRetirada(Screen):
             #Banco de dados
             db.adiciona_retirada(valor,descricao, conta[0])
             
+            #Limpa a tela do formulário
+            self.getDescricao.text = ""
+            self.getValor.text = ""
+
             #Volta para a página inicial
             self.manager.current = "principal"
             self.manager.transition.direction = "right"
