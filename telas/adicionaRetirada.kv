@@ -1,17 +1,24 @@
 #:kivy 2.0.0
 #:include telas/config.kv 
 <AdicionaRetirada>:
+    setMensagem: setMensagem
     BoxLayout:
         Label:
             text:'Saída'
         Label:
             text:'Valor:'
         TextInput:
+            id: getValor
         Label:
             text: "Descrição:"
         TextInput:
+            id: getDescricao
+        Label:
+            id: setMensagem
         Button:
             text:'Adicionar'
+            on_press:
+                root.adicionaRetirada(getValor.text, getDescricao.text)
         Button:
             text:'Cancelar'
             on_press:

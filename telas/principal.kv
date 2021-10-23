@@ -27,10 +27,7 @@
         Button:
             text:'Adiciona retirada'
             on_press:
-                root.manager.current="adicionaRetirada"
-                root.manager.transition.direction="left"
-                #left para entrar na página
-                #right para sair
+                root.podeAdicionarRetirada()
         Button:
             text:'Suas contas'
             on_press:
