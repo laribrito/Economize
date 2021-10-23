@@ -1,17 +1,24 @@
 #:kivy 2.0.0
 #:include telas/config.kv 
 <AdicionaGanho>:
+    setMensagem: setMensagem
     BoxLayout:
         Label:
             text:'Entrada'
         Label:
             text:'Valor:'
         TextInput:
+            id: getValor
         Label:
             text: "Descrição:"
         TextInput:
+            id: getDescricao
+        Label:
+            id: setMensagem
         Button:
             text:'Adicionar'
+            on_press:
+                root.adicionaGanho(getValor.text, getDescricao.text)
         Button:
             text:'Cancelar'
             on_press:

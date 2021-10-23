@@ -15,6 +15,7 @@ from appConfig import AppConfig
 class Principal(Screen):
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
+    setMensagem = ObjectProperty(None)
     def atualizaSaldo(self):
         if AppConfig.get_config("contaPadrao") != "":
             dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
@@ -24,3 +25,12 @@ class Principal(Screen):
         else:
             self.setSaldo.text = "Olá!"
             self.setConta.text = ""
+
+    def podeAdicionarGanho(self):
+        if AppConfig.get_config("contaPadrao") != "":
+            self.manager.current="adicionaGanho"
+            self.manager.transition.direction="left"
+            #left para entrar na página
+            #right para sair
+        else:
+            self.setMensagem.text = "Para adicionar um ganho é\nnecessário uma conta padrão."
