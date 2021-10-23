@@ -16,10 +16,11 @@ class Principal(Screen):
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
     def atualizaSaldo(self):
-        if AppConfig.get_config("contaPadrao") != None:
+        if AppConfig.get_config("contaPadrao") != "":
             dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
             saldo = float(dados[3])
             self.setSaldo.text = f"R$ {saldo:.2f}"
             self.setConta.text = AppConfig.get_config("contaPadrao")
         else:
             self.setSaldo.text = "Olá!"
+            self.setConta.text = ""

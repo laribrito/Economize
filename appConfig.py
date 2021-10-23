@@ -52,7 +52,7 @@ class AppConfig:
         try:
             return AppConfig.config[chave]
         except KeyError:
-            return None
+            return ""
     
     '''
     Altera um item de configuração.

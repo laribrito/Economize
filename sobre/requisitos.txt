@@ -12,5 +12,6 @@ REQUISITOS
     4-Caixa
 3.2 É necessário criar uma conta antes de adicionar algum ganho ou retirada
 3.3 É possível alterar a conta padrão
+3.2 É possível remover uma conta criada (fazer isso apaga todo o saldo dela)
 
 4. Precisa mostrar o saldo da conta designada como padrão

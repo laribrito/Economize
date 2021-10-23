@@ -9,7 +9,7 @@ from functools import partial
 from kivy.properties import ObjectProperty
 
 #Carrega a tela .kv correspondente
-Builder.load_file("telas/alternaConta.kv")
+Builder.load_file("telas/alteraContas.kv")
 
 #Importa o banco de dados
 from model import db
@@ -17,7 +17,7 @@ from model import db
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
 
-class AlternaConta(Screen):
+class AlteraContas(Screen):
     #Listas que armazenarão objetos da tela
     raiz = []
     box = []
@@ -30,14 +30,19 @@ class AlternaConta(Screen):
         self.manager.current_screen.setMensagem.text = 'Conta padrão alterada com sucesso!'
         self.manager.current_screen.atualizaSaldo()
 
-    def exibirContas(self):
-        #ScrollView
-        rolagem = ScrollView(pos_hint={"top": 0.9}, size_hint_y=0.8)
+    #Exclue a conta selecionada 
+    def excluiConta(self, *args):
+        padrao = AppConfig.get_config("contaPadrao")
+        if args[0] == padrao:
+            AppConfig.set_config("contaPadrao", "")
+        conta = db.retorna_conta_nome(args[0])
+        db.remove_conta_nome(conta[0])
+        self.manager.current="principal"
+        self.manager.transition.direction = "right"
+        self.manager.current_screen.setMensagem.text = 'Conta excluida com sucesso!'
+        self.manager.current_screen.atualizaSaldo()
 
-        #BoxLayout
-        #Ele é necessário por causa da mensagem final e 
-        # da mensagem para nenhuma conta cadastrada
-        layout = BoxLayout(size_hint_y=None)
+    def exibirContas(self):
 
         #Para que a tela apareça de forma correta é necessário 
         # limpar a tela antes de carrega-la de novo
@@ -58,6 +63,14 @@ class AlternaConta(Screen):
             # é a primeira vez que a tela é aberta,
             # portanto não precisa de limpeza
             pass
+
+        #ScrollView
+        rolagem = ScrollView(pos_hint={"top": 0.9}, size_hint_y=0.8)
+
+        #BoxLayout
+        #Ele é necessário por causa da mensagem final e 
+        # da mensagem para nenhuma conta cadastrada
+        layout = BoxLayout(size_hint_y=None)
         
         #Busca as contas cadastradas no banco de dados
         contas = db.retorna_contas()
@@ -68,11 +81,12 @@ class AlternaConta(Screen):
             layout.add_widget(Label(text="Não há contas cadastradas ainda", size_hint_y=None))
         else:
             #Adiciona os widgets à tela
-            #GridLayout
-            Contas = GridLayout(cols=2, size_hint_y=None)
             for ind, conta in enumerate(contas):
                 #Nome da conta
-                Contas.add_widget(Label(text=conta[1], size_hint_y=None))
+                layout.add_widget(Label(text=conta[1], size_hint_y=None))
+
+                #GridLayout
+                Contas = GridLayout(cols=2, size_hint_y=None)
                 
                 #Saldo da conta
                 Contas.add_widget(Label(text=f"R$ {conta[3]:.2f}", size_hint_y=None))
@@ -85,9 +99,16 @@ class AlternaConta(Screen):
                 #Ligação do botão com a função 'tornaPadrão()'
                 btn.bind(on_press=partial(self.tornaPadrao, ind, conta[1]))
                 Contas.add_widget(btn)
+                
+                #Botão para excluir essa conta. Não há confirmação
+                btn2 = Button(text='Excluir\nconta', size_hint_y=None)
+                #Ligação do botão com a função 'tornaPadrão()'
+                btn2.bind(on_press=partial(self.excluiConta, conta[1]))
+                Contas.add_widget(btn2)
 
-            #Adiciona o GridLayout que contem as contas
-            layout.add_widget(Contas)
+                #Adiciona o GridLayout que contem as contas
+                layout.add_widget(Contas)          
+            
             layout.add_widget(Label(text="Fim", size_hint_y=None))
 
         #Salva o objeto Boxlayout
