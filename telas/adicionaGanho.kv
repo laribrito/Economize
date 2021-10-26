@@ -6,28 +6,105 @@
     setMensagem: setMensagem
     getDescricao: getDescricao
     getValor: getValor
+    setSaldo: setSaldo
+    setConta: setConta
 
     BoxLayout:
-        Label:
-            text:'Entrada'
-        Label:
-            text:'Valor:'
-        TextInput:
-            id: getValor
-        Label:
-            text: "Descrição:"
-        TextInput:
-            id: getDescricao
-        Label:
-            id: setMensagem
-        Button:
-            text:'Adicionar'
-            on_press:
-                root.adicionaGanho(getValor.text, getDescricao.text)
-        Button:
-            text:'Cancelar'
-            on_press:
-                root.manager.current="principal"
-                root.manager.transition.direction="right"
-                #left para entrar na página
-                #right para sair
+        size_hint_y: 1
+        spacing: 20
+        BoxLayout:
+            padding: 40
+            size_hint_y: 0.3
+            canvas.before:
+                Color:
+                    rgba: 0.81,0.99,0.81,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                text:'\n\nEntrada'
+        BoxLayout:
+            size_hint_y: 0.9
+            padding: 30, 0
+            Label:
+                haling: "left"
+                text_size: self.width, None
+                text:'Valor: *'
+            TextInput:
+                id: getValor
+            Label:
+                haling: "left"
+                text_size: self.width, None
+                text: "Descrição: *"
+            TextInput:
+                id: getDescricao
+            Label:
+                id: setMensagem
+                text:" "
+        GridLayout:
+            size_hint_y: 0.10
+            cols: 3
+            Label:
+                size_hint_x: 0.2
+                size_hint_y: None
+                text: " "
+                height: self.texture_size[1]                
+            Button:
+                text:'Adicionar'
+                size_hint_x: 0.5
+                size_hint_y: None
+                height: self.texture_size[1] + dp(10)
+                background_normal: ""
+                background_color: "#3EB74A"
+                on_press:
+                    root.adicionaGanho(getValor.text, getDescricao.text)
+            Label:
+                size_hint_x: 0.2
+                size_hint_y: None
+                height: self.texture_size[1]
+        GridLayout:
+            size_hint_y: 0.20
+            cols: 3
+            Label:
+                size_hint_x: 0.3
+                size_hint_y: None
+                height: self.texture_size[1]
+            Button:
+                text:'Cancelar'
+                size_hint_x: 0.40
+                size_hint_y: None
+                height: self.texture_size[1] + dp(10)
+                background_normal: ""
+                background_color: "#3C573F"
+                on_press:
+                    root.manager.current="principal"
+                    root.manager.transition.direction="right"
+                    #left para entrar na página
+                    #right para sair
+            Label:
+                size_hint_x: 0.3
+                size_hint_y: None
+                height: self.texture_size[1]
+
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'top'
+        padding: 20
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: 0.81,0.99,0.81,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint: None, None
+            Label:
+                id: setSaldo
+                text: " "
+                font_size: "16sp"
+                height: self.texture_size[1]
+            Label:
+                id: setConta
+                text: " "
+                font_size: "14sp"
+                height: self.texture_size[1]

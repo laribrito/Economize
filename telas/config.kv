@@ -1,14 +1,71 @@
+<Screen>
+    canvas.before:
+        Color: 
+            rgba: 0.98, 0.98, 0.98, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Label>
+    #Cor dos textos
+    color: 0,0,0,1
+    # Altura do Label igual à altura do texto
+    #   precisa ser copiado para não atrapalhar
+    #   outros widgets
+    # height: self.texture_size[1]
+    size_hint_y: None
+    #Tamanho padrão do label
+    font_size: "20sp"
+    haling: "center"
+
+<Button>
+    #Cor dos textos dos botões
+    color: 1,1,1,1
+    #Altura dos botões
+    #   precisa ser copiado para não atrapalhar
+    #   outros widgets
+    # size_hint_y: None
+    # height: self.texture_size[1] + dp(20)
+
+<TextInput>
+    # Altura do TextInput igual a uma linha de texto + 10 (5 de espaço em cima e embaixo)
+    size_hint_y: None
+    height: self.line_height + dp(10)
+    # Sem múltiplas linhas
+    multiline: False
+    # O TAB não entra no texto, ao invés disso, pula pro próximo campo
+    write_tab: False
+
 <ScrollView>
     # Rolagem apenas na vertical
     do_scroll_x: False
     do_scroll_y: True
+    canvas.before:
+        Color: 
+            rgba: 0.98, 0.98, 0.98, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
 <BoxLayout>
     # Configuração necessária para o ScrollView funcionar
     height: self.minimum_height
+
     # Orientação da tela
     orientation: 'vertical'
+    canvas.before:
+        Color: 
+            rgba: 0.98, 0.98, 0.98, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
 
 <GridLayout>
     # Configuração necessária para o ScrollView funcionar
     height: self.minimum_height
+    canvas.before:
+        Color: 
+            rgba: 0.98, 0.98, 0.98, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size

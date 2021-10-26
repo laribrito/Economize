@@ -6,6 +6,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from functools import partial
+from kivy.graphics import Color, Rectangle
+from kivy.metrics import dp
 from kivy.properties import ObjectProperty
 
 #Carrega a tela .kv correspondente
@@ -16,6 +18,50 @@ from model import db
 
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
+
+#Classe para o label com background_color
+#   NOME DA CONTA
+class NomeC(Label):
+        def on_size(self, *args):
+            self.canvas.before.clear()
+            self.height=dp(40)
+            self.text_size=self.width-dp(50), dp(40)
+            self.valign="center"
+            self.size_hint_y= None
+            with self.canvas.before:
+                Color(.94, .94, .94, 1)
+                Rectangle(pos=self.pos, size=self.size)
+
+#Classe para os outros labels
+#   SALDO e TIPO DA CONTA
+class Info(Label):
+        def on_size(self, *args):
+            self.height=self.texture_size[1] + dp(10)
+            self.text_size=self.width-dp(50), self.texture_size[1]
+            self.size_hint_y= None
+
+#Classe para os botões
+#   TORNAR PADRÃO e EXCLUIR CONTA
+class btnFunc(Button):
+        def on_size(self, *args):
+            self.size_hint_y=None
+            self.size_hint_x=0.5
+            self.height=dp(60)
+            self.halign="center"
+            self.font_size="16sp"
+            self.background_color="#476272"
+            self.background_normal=""
+                        
+#Classe para o label que se comportará como uma linha
+#   LINHA
+class Linha(Label):
+        def on_size(self, *args):
+            self.canvas.before.clear()
+            self.height=dp(1)
+            self.size_hint_y= None
+            with self.canvas.before:
+                Color(.41, .58, .79, 1)
+                Rectangle(pos=self.pos, size=self.size)
 
 class AlteraContas(Screen):
     #Listas que armazenarão objetos da tela
@@ -65,12 +111,12 @@ class AlteraContas(Screen):
             pass
 
         #ScrollView
-        rolagem = ScrollView(pos_hint={"top": 0.9}, size_hint_y=0.8)
+        rolagem = ScrollView(pos_hint={"top": 0.8}, size_hint_y=0.65)
 
         #BoxLayout
         #Ele é necessário por causa da mensagem final e 
         # da mensagem para nenhuma conta cadastrada
-        layout = BoxLayout(size_hint_y=None)
+        layout = BoxLayout(size_hint_y=None, padding=(20,0), spacing=20)
         
         #Busca as contas cadastradas no banco de dados
         contas = db.retorna_contas()
@@ -83,33 +129,42 @@ class AlteraContas(Screen):
             #Adiciona os widgets à tela
             for ind, conta in enumerate(contas):
                 #Nome da conta
-                layout.add_widget(Label(text=conta[1], size_hint_y=None))
+                nome = NomeC(text=conta[1])
+                layout.add_widget(nome)
 
                 #GridLayout
-                Contas = GridLayout(cols=2, size_hint_y=None)
+                Contas = GridLayout(cols=2, size_hint_y=None, spacing=10, padding=(0,20))
                 
                 #Saldo da conta
-                Contas.add_widget(Label(text=f"R$ {conta[3]:.2f}", size_hint_y=None))
-
-                #Tipo da conta
-                Contas.add_widget(Label(text=f"{conta[2]}", size_hint_y=None))
+                Contas.add_widget(Info(text=f"R$ {conta[3]:.2f}", size_hint_y=None))
 
                 #Botão para tornar essa conta a conta padrão
-                btn = Button(text='Tornar\npadrão', size_hint_y=None)
+                btn = btnFunc(text='Tornar\npadrão', size_hint_y=None)
                 #Ligação do botão com a função 'tornaPadrão()'
                 btn.bind(on_press=partial(self.tornaPadrao, conta[1]))
                 Contas.add_widget(btn)
+
+                #Tipo da conta
+                Contas.add_widget(Info(text=f"{conta[2]}", size_hint_y=None))
                 
                 #Botão para excluir essa conta. Não há confirmação
-                btn2 = Button(text='Excluir\nconta', size_hint_y=None)
+                btn2 = btnFunc(text='Excluir\nconta', size_hint_y=None)
                 #Ligação do botão com a função 'tornaPadrão()'
                 btn2.bind(on_press=partial(self.excluiConta, conta[1]))
                 Contas.add_widget(btn2)
 
                 #Adiciona o GridLayout que contem as contas
-                layout.add_widget(Contas)          
+                layout.add_widget(Contas)   
+
+                #Adiciona uma linha
+                layout.add_widget(Linha(text=" "))       
             
-            layout.add_widget(Label(text="Fim", size_hint_y=None))
+            #Marca o fim da lista
+            layout.add_widget(Label(text="Fim", 
+                                    size_hint_y=None, 
+                                    font_size="14sp", 
+                                    height=dp(20),
+                                    color=(.6,.6,.6,1)))
 
         #Salva o objeto Boxlayout
         self.box = layout
@@ -117,6 +172,3 @@ class AlteraContas(Screen):
         #Salva o objeto ScrollView
         self.raiz = rolagem
         self.add_widget(rolagem)
-
-        
-    

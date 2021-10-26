@@ -9,33 +9,87 @@
     getPadrao: getPadrao
 
     BoxLayout:
-        Label:
-            text:'Nova Conta'
-        Label:
-            text:'Nome:'
-        TextInput:
-            id: getNome
-        Label:
-            text: "Tipo:"
-        #Talvez esse input mude para um droplist
-        TextInput:
-            id: getTipo
-        GridLayout:
-            cols: 2
-            CheckBox:
-                id: getPadrao
+        size_hint_y: 1
+        spacing: 20
+        BoxLayout:
+            padding: 40
+            size_hint_y: 0.3
+            canvas.before:
+                Color:
+                    rgba: 0.81,0.84,0.99,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
             Label:
-                text:'Tornar conta padrão'
-        Label:
-            id: setMensagem
-        Button:
-            text:'Adicionar'
-            on_press:
-                root.cadastraConta(getNome.text,getTipo.text, getPadrao.active)
-        Button:
-            text:'Cancelar'
-            on_press:
-                root.manager.current="principal"
-                root.manager.transition.direction="right"
-                #left para entrar na página
-                #right para sair
+                text:'\n\nNova conta'
+        BoxLayout:
+            size_hint_y: 0.9
+            padding: 30, 0
+            Label:
+                haling: "left"
+                text_size: self.width, None
+                text:'Nome: *'
+            TextInput:
+                id: getNome
+            Label:
+                haling: "left"
+                text_size: self.width, None
+                text: "Tipo: *"
+            TextInput:
+                id: getTipo
+            GridLayout:
+                cols: 2
+                CheckBox:
+                    size_hint_x: 0.4
+                    id: getPadrao
+                    background_checkbox_normal: "telas/imgs/checkbox_normal.png"
+                    background_checkbox_down: "telas/imgs/checkbox_down.png"
+                Label:
+                    text:'Tornar conta padrão'
+            Label:
+                id: setMensagem
+                text:" "
+        GridLayout:
+            size_hint_y: 0.10
+            cols: 3
+            Label:
+                size_hint_x: 0.2
+                size_hint_y: None
+                text: " "
+                height: self.texture_size[1]                
+            Button:
+                text:'Criar'
+                size_hint_x: 0.5
+                size_hint_y: None
+                height: self.texture_size[1] + dp(10)
+                background_normal: ""
+                background_color: "#6A96CA"
+                on_press:
+                    root.cadastraConta(getNome.text,getTipo.text, getPadrao.active)
+            Label:
+                size_hint_x: 0.2
+                size_hint_y: None
+                height: self.texture_size[1]
+        GridLayout:
+            size_hint_y: 0.20
+            cols: 3
+            Label:
+                size_hint_x: 0.3
+                size_hint_y: None
+                height: self.texture_size[1]
+            Button:
+                text:'Cancelar'
+                size_hint_x: 0.40
+                size_hint_y: None
+                height: self.texture_size[1] + dp(10)
+                background_normal: ""
+                background_color: "#476272"
+                on_press:
+                    root.manager.current="alteraContas"
+                    root.manager.transition.direction="right"
+                    #left para entrar na página
+                    #right para sair
+            Label:
+                size_hint_x: 0.3
+                size_hint_y: None
+                height: self.texture_size[1]

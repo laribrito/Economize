@@ -17,6 +17,14 @@ class AdicionaGanho(Screen):
     setMensagem = ObjectProperty(None)
     getValor = ObjectProperty(None)
     getDescricao = ObjectProperty(None)
+    setSaldo = ObjectProperty(None)
+    setConta = ObjectProperty(None)
+
+    def atualizaSaldo(self, *args):
+        dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
+        saldo = float(dados[3])
+        self.setSaldo.text = f"R$ {saldo:.2f}"
+        self.setConta.text = AppConfig.get_config("contaPadrao")
 
     def adicionaGanho(self, valor, descricao):
         valido = True

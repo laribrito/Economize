@@ -5,34 +5,58 @@
     setMensagem: setMensagem
     setSaldo: setSaldo
     setConta: setConta
+    boxBotoes: boxBotoes
+
     BoxLayout:
-        Label:
-            id: setSaldo
-            text:'Olá!'
-        Label:
-            id: setConta
-        Label:
-            id: setMensagem
+        size_hint_y: 1
+        BoxLayout:
+            padding: 40
+            size_hint_y: 0.3
+            canvas.before:
+                Color:
+                    rgba: 0.81,0.84,0.99,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label:
+                id: setSaldo
+                text:'Olá!'
+                height: self.texture_size[1]
+                font_size: "36sp"
+            Label:
+                id: setConta
+                height: self.texture_size[1]
+                font_size: "18sp"
+            Label:
+                font_size: "14sp"
+                id: setMensagem
+                height: self.texture_size[1]
+                #text: "eu sou uma mensagem de sucesso ou de erro"
+        BoxLayout:
+            size_hint_y: 0.9
+            padding: 30, 0
+            Label: 
+                text: "Últimos lançamentos"
+                haling: "left"
+                text_size: self.width, None
+                font_size: "20sp"
+            BoxLayout:
+                Label:
+                    text: "Eu sou um lançamento"
+            
+            
+    FloatLayout:
+        id: boxBotoes
+        size_hint_y: 0.35
+    AnchorLayout:
+        anchor_x: 'right'
+        anchor_y: 'bottom'
+        padding: 20
         Button:
-            text:'Adiciona conta'
+            background_normal: "telas/imgs/toggleButton_normal.png"
+            background_down: "telas/imgs/toggleButton_down.png"
+            size: '70','70'
+            size_hint:(None,None)
+            border: (0,0,0,0)
             on_press:
-                root.manager.current="adicionaConta"
-                root.manager.transition.direction="left"
-                #left para entrar na página
-                #right para sair
-        Button:
-            text:'Adiciona ganho'
-            on_press:
-                root.podeAdicionarGanho()
-        Button:
-            text:'Adiciona retirada'
-            on_press:
-                root.podeAdicionarRetirada()
-        Button:
-            text:'Suas contas'
-            on_press:
-                root.manager.current="alteraContas"
-                root.manager.transition.direction="left"
-                root.manager.current_screen.exibirContas()
-                #left para entrar na página
-                #right para sair
+                root.mostrarBotoes()
