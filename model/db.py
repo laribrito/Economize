@@ -89,7 +89,7 @@ def atualiza_saldo(idConta):
 #adiciona ganho
 def adiciona_ganho(valor, descricao, conta):
     con = get_db()
-    con.execute("INSERT INTO ganhos VALUES (NULL, ?, ?, ?)", [valor, descricao, conta])
+    con.execute("INSERT INTO ganhos (valor, descricao,id_conta) VALUES (?, ?, ?)", [valor, descricao, conta])
     atualiza_saldo(conta)
 
 #retorna ganhos de uma conta
@@ -100,7 +100,7 @@ def retorna_ganhos_id(conta):
 #adiciona retirada
 def adiciona_retirada(valor, descricao, conta):
     con = get_db()
-    con.execute("INSERT INTO retiradas VALUES (NULL, ?, ?, ?)", [valor, descricao, conta])
+    con.execute("INSERT INTO retiradas (valor, descricao,id_conta) VALUES (?, ?, ?)", [valor, descricao, conta])
     atualiza_saldo(conta)
 
 #retorna retiradas de uma conta
