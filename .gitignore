@@ -6,3 +6,10 @@ __pycache__
 
 #banco de dados
 model/dados.db
+
+#arquivos de compilação
+.buildozer
+buildozer.spec
+bin/
+icone.png
+splash.png

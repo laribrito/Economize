@@ -63,4 +63,5 @@ class AdicionaConta(Screen):
             self.manager.transition.direction = "right"
             self.manager.current_screen.setMensagem.text = 'Conta adicionada com sucesso!'
             self.manager.current_screen.atualizaSaldo()
+            self.manager.current_screen.mostrarMovimentacoes()
             

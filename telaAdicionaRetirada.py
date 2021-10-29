@@ -64,3 +64,4 @@ class AdicionaRetirada(Screen):
             self.manager.transition.direction = "right"
             self.manager.current_screen.setMensagem.text = "Valor retirado com sucesso."
             self.manager.current_screen.atualizaSaldo()
+            self.manager.current_screen.mostrarMovimentacoes()
