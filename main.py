@@ -10,6 +10,7 @@ class MyApp(App):
         from telaPrincipal import Principal
         sm.add_widget(Principal(name="principal"))
         sm.current_screen.atualizaSaldo()
+        sm.current_screen.mostrarMovimentacoes()
         from telaAdicionaGanho import AdicionaGanho
         sm.add_widget(AdicionaGanho(name="adicionaGanho"))
         from telaAdicionaRetirada import AdicionaRetirada

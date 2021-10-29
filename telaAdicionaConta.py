@@ -48,9 +48,11 @@ class AdicionaConta(Screen):
         #SUCESSO
         if valido:
             db.cria_conta(nome,tipo)
+            novaConta = db.retorna_conta_nome(nome)
             if padrao:
                 #guarda a conta que foi criada como conta padrão
                 AppConfig.set_config("contaPadrao", nome)
+                AppConfig.set_config("idConta", novaConta[0])
 
             self.getNome.text = ""
             self.getTipo.text = ""
@@ -61,5 +63,4 @@ class AdicionaConta(Screen):
             self.manager.transition.direction = "right"
             self.manager.current_screen.setMensagem.text = 'Conta adicionada com sucesso!'
             self.manager.current_screen.atualizaSaldo()
-            self.manager.current_screen.mostrarMovimentacoes()
             
