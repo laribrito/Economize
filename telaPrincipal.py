@@ -1,15 +1,8 @@
-from kivy.core.text import LabelBase
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
-from kivy.uix.scrollview import ScrollView
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.lang import Builder
-from kivy.metrics import dp
 from kivy.properties import ObjectProperty
 from functools import partial
-import time
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/principal.kv")
@@ -21,9 +14,6 @@ from model import db
 from appConfig import AppConfig
 
 class Principal(Screen):
-    #Listas que armazenarão objetos da tela
-    raiz = []
-    box = []
 
     #Elementos da interface
     setSaldo = ObjectProperty(None)
@@ -91,7 +81,6 @@ class Principal(Screen):
         #Fecha o menu da tela principal
         # como ele já trocou o 'estadoBotao',
         # só basta recarregar o método
-        time.sleep(0.1)
         self.mostrarBotoes()
         
 
@@ -115,7 +104,6 @@ class Principal(Screen):
             #Fecha o menu da tela principal
             # como ele já trocou o 'estadoBotao',
             # só basta recarregar o método
-            time.sleep(0.1)
             self.mostrarBotoes()        
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
@@ -136,124 +124,8 @@ class Principal(Screen):
                 #Fecha o menu da tela principal
                 # como ele já trocou o 'estadoBotao',
                 # só basta recarregar o método
-                time.sleep(0.1)
                 self.mostrarBotoes()
                 
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar uma retirada é\nnecessário uma conta padrão."
-    
-    def mostrarMovimentacoes(self):
-        #Para que a tela apareça de forma correta é necessário 
-        # limpar a tela antes de carrega-la de novo
-        try:
-            #Limpa o ScrollView
-            self.raiz.clear_widgets()
-        except AttributeError:
-            #Se não conseguir é porque 
-            # é a primeira vez que a tela é aberta,
-            # portanto não precisa de limpeza
-            pass
-
-        try:
-            #limpa o BoxLayout
-            self.box.clear_widgets()
-        except AttributeError:
-            #Se não conseguir é porque 
-            # é a primeira vez que a tela é aberta,
-            # portanto não precisa de limpeza
-            pass
-
-        #ScrollView
-        rolagem = ScrollView(pos_hint={"top": 0.68}, size_hint_y=0.65)
-
-        #BoxLayout
-        layout = BoxLayout(size_hint_y=None, padding=(20,0), spacing=20)
-
-        #Pega os dados
-        ganhos = db.retorna_ganhos_id(AppConfig.get_config("idConta"))
-        retiradas = db.retorna_retiradas_id(AppConfig.get_config("idConta"))
-        
-
-        #Marca cada um com seu respectivo tipo (se ganho, ou se retirada)
-        G=[] #lista auxiliar
-        for i in ganhos:
-            i = list(i)
-            i.append("g")
-            G.append(i)
-
-        R=[] #lista auxiliar
-        for i in retiradas:
-            i = list(i)
-            i.append("r")
-            R.append(i)
-
-        #Junta em uma lista só
-        tudo = G + R
-
-        #Ordena pela datahora, do mais recente para o mais antigo
-        tudo.sort(key=lambda x: x[4], reverse=True)
-        
-        for i in tudo:
-            print(i)
-
-        if len(tudo) == 0:
-            layout.add_widget(Label(text="Não há movimentações", 
-                                    size_hint_y=None, 
-                                    font_size="14sp", 
-                                    height=dp(20),
-                                    color=(.6,.6,.6,1)))
-            #Salva o objeto Boxlayout
-            self.box = layout
-            rolagem.add_widget(layout)
-            #Salva o objeto ScrollView
-            self.raiz = rolagem
-            self.add_widget(rolagem, index=2)
-        else:
-            grid = GridLayout(cols=3, size_hint_y=None)
-            for movimentacao in tudo:
-                if movimentacao[5] =="g":
-                    sinal = Label(
-                        text=" + ",
-                        color=(0,.9,0,1)
-                    )
-                    valor = Label(
-                        text=f" R${movimentacao[1]:.2f} "
-                    )
-                    desc = Label(
-                        text=f" {movimentacao[2]} "
-                    )
-                    grid.add_widget(sinal)
-                    grid.add_widget(valor)
-                    grid.add_widget(desc)
-                else:
-                    sinal = Label(
-                        text=" - ",
-                        color=(.9,0,0,1)
-                    )
-                    valor = Label(
-                        text=f" R${movimentacao[1]:.2f} "
-                    )
-                    desc = Label(
-                        text=f" {movimentacao[2]} "
-                    )
-                    grid.add_widget(sinal)
-                    grid.add_widget(valor)
-                    grid.add_widget(desc)
-                    
-            #Adiciona o texto ao BOXLAYOUT
-            layout.add_widget(grid)
-
-            #Marca o fim da lista
-            layout.add_widget(Label(text="Fim", 
-                                    size_hint_y=None, 
-                                    font_size="14sp", 
-                                    height=dp(20),
-                                    color=(.6,.6,.6,1)))
-
-            #Salva o objeto Boxlayout
-            self.box = layout
-            rolagem.add_widget(layout)
-            #Salva o objeto ScrollView
-            self.raiz = rolagem
-            self.add_widget(rolagem, index=2)

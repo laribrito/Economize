@@ -71,19 +71,16 @@ class AlteraContas(Screen):
     #Torna a conta selecionada como a padrão, que será exibida na tela principal
     def tornaPadrao(self, *args):
         AppConfig.set_config("contaPadrao", args[0])
-        AppConfig.set_config("idConta", args[1])
         self.manager.current="principal"
         self.manager.transition.direction = "right"
         self.manager.current_screen.setMensagem.text = 'Conta padrão alterada com sucesso!'
         self.manager.current_screen.atualizaSaldo()
-        self.manager.current_screen.mostrarMovimentacoes()
 
     #Exclue a conta selecionada 
     def excluiConta(self, *args):
         padrao = AppConfig.get_config("contaPadrao")
         if args[0] == padrao:
             AppConfig.set_config("contaPadrao", "")
-            AppConfig.set_config("idConta", "")
         conta = db.retorna_conta_nome(args[0])
         db.remove_conta_nome(conta[0])
         self.manager.current="principal"
@@ -144,7 +141,7 @@ class AlteraContas(Screen):
                 #Botão para tornar essa conta a conta padrão
                 btn = btnFunc(text='Tornar\npadrão', size_hint_y=None)
                 #Ligação do botão com a função 'tornaPadrão()'
-                btn.bind(on_press=partial(self.tornaPadrao, conta[1], conta[0]))
+                btn.bind(on_press=partial(self.tornaPadrao, conta[1]))
                 Contas.add_widget(btn)
 
                 #Tipo da conta
