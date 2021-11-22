@@ -39,28 +39,30 @@
                 text:'\n\nNova conta'
         BoxLayout:
             size_hint_y: 0.9
-            padding: 30, 0, 30, 45
-            spacing: 45
+            padding: 30, 0
             Label:
                 haling: "left"
                 text_size: self.width, None
                 text:'Nome: *'
+                size_hint_y: 1
             TextInput:
                 id: getNome
             Label:
                 haling: "left"
                 text_size: self.width, None
                 text: "Tipo: *"
-            TextInput:
+                size_hint_y: 1
+            RecebeTipo:
                 id: getTipo
             GridLayout:
                 cols: 2
-                size_hint_y: None
+                size_hint_y: 1
                 CheckBox:
                     size_hint_x: 0.4
                     id: getPadrao
                     background_checkbox_normal: "telas/imgs/checkbox_normal.png"
                     background_checkbox_down: "telas/imgs/checkbox_down.png"
+                    size_hint_y: None
                 Label:
                     text:'Tornar conta padrão'
                     text_size: self.width, None
@@ -68,6 +70,7 @@
             Label:
                 id: setMensagem
                 text:" "
+                size_hint_y: 1
         GridLayout:
             size_hint_y: 0.10
             cols: 3

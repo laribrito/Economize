@@ -40,23 +40,26 @@
                 text:'\n\nSaída'
         BoxLayout:
             size_hint_y: 0.9
-            padding: 30, 0, 30, 70
-            spacing: 70
+            padding: 30, 0
             Label:
                 haling: "left"
                 text_size: self.width, None
                 text:'Valor: *'
-            TextInput:
+                size_hint_y: 1
+            RecebeValor:
                 id: getValor
             Label:
                 haling: "left"
                 text_size: self.width, None
                 text: "Descrição: *"
+                size_hint_y: 1
             TextInput:
                 id: getDescricao
+                hint_text: "Onde você gastou esse dinheiro?"
             Label:
                 id: setMensagem
                 text:" "
+                size_hint_y: 1
         GridLayout:
             size_hint_y: 0.10
             cols: 3

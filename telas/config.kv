@@ -50,6 +50,15 @@
     multiline: False
     # O TAB não entra no texto, ao invés disso, pula pro próximo campo
     write_tab: False
+    cursor_color: (0,0,0,1)
+
+<RecebeValor@TextInput>
+    hint_text: "Ex.: R$ 1234.54"
+    input_filter: "float"
+
+<RecebeTipo@TextInput>
+    hint_text: "Somente números"
+    input_filter: "float"
 
 <ScrollView>
     # Rolagem apenas na vertical
