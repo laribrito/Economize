@@ -20,8 +20,9 @@
     #Elementos que serão trabalhados pelo .py
     setMensagem: setMensagem
     getNome: getNome
-    getTipo: getTipo
+    # getTipo: getTipo
     getPadrao: getPadrao
+    layoutTipo: layoutTipo
 
     BoxLayout:
         size_hint_y: 1
@@ -52,8 +53,9 @@
                 text_size: self.width, None
                 text: "Tipo: *"
                 size_hint_y: 1
-            RecebeTipo:
-                id: getTipo
+            BoxLayout:
+                size_hint_y: None
+                id: layoutTipo
             GridLayout:
                 cols: 2
                 size_hint_y: 1
@@ -87,7 +89,7 @@
                 background_normal: ""
                 background_color: "#6A96CA"
                 on_press:
-                    root.cadastraConta(getNome.text,getTipo.text, getPadrao.active)
+                    root.cadastraConta(getNome.text, getPadrao.active)
             Label:
                 size_hint_x: 0.2
                 size_hint_y: None
