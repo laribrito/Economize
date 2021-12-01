@@ -93,7 +93,6 @@ class AdicionaConta(Screen):
 
     def escolheuTipo(self, instance):
         self.tipoEscolhido=instance.text[17]
-        print(self.tipoEscolhido)
         
     def cadastraConta(self, nome, padrao):
         valido = True
@@ -116,7 +115,7 @@ class AdicionaConta(Screen):
             valido = False
         
         #ERRO: algum campo vazio
-        if nome == "" or tipo =="":
+        if nome == "" or self.tipoEscolhido =="":
             
             self.setMensagem.text = "Preencha todos os campos."
             valido = False
