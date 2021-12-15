@@ -21,8 +21,6 @@ from kivy.properties import ObjectProperty
 from kivy.uix.button import Button
 from kivy.metrics import dp
 from kivy.uix.dropdown import DropDown
-from kivy.core.window import Window
-from kivy.clock import Clock
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaConta.kv")

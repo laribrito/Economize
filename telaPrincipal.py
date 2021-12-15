@@ -15,7 +15,6 @@ You should have received a copy of the GNU General Public License
 along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-from kivy.core.text import LabelBase
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
@@ -25,7 +24,6 @@ from kivy.uix.label import Label
 from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import ObjectProperty
-from functools import partial
 import time
 
 #carrega a tela .kv correspondente
