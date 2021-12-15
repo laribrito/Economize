@@ -59,7 +59,7 @@ class AdicionaConta(Screen):
     layoutTipo = ObjectProperty(None)
 
     #Tipos de conta que o programa trabalha
-    tiposDisponiveis=["Dinheiro", "Saldo"   , "Investimento"]
+    tiposDisponiveis=["Dinheiro", "Saldo", "Investimento"]
 
     #Tipo selecionado
     tipoEscolhido = ""
@@ -140,3 +140,7 @@ class AdicionaConta(Screen):
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
             
+    def trocaCheck(self, *args):
+        antigoValor = self.getPadrao.active
+        novoValor = not antigoValor 
+        self.getPadrao.active = novoValor

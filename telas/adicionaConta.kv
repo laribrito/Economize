@@ -66,9 +66,12 @@
                     background_checkbox_down: "telas/imgs/checkbox_down.png"
                     size_hint_y: None
                 Label:
-                    text:'Tornar conta padrão'
+                    text:'[ref=""]Tornar conta padrão[/ref]'
+                    markup: True
                     text_size: self.width, None
                     size_hint_y: None
+                    on_ref_press:
+                        root.trocaCheck()
             Label:
                 id: setMensagem
                 text:" "
