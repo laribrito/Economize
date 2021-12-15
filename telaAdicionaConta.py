@@ -59,7 +59,7 @@ class AdicionaConta(Screen):
     layoutTipo = ObjectProperty(None)
 
     #Tipos de conta que o programa trabalha
-    tiposDisponiveis=["Dinheiro", "Saldo", "Investimento"]
+    tiposDisponiveis= AppConfig.tipos
 
     #Tipo selecionado
     tipoEscolhido = ""

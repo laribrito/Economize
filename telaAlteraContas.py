@@ -143,6 +143,9 @@ class AlteraContas(Screen):
         #Lê quantas são
         quant = len(contas)
 
+        #Recebe a lista de tipos que o aplicativo tem disponível
+        listaTipos = AppConfig.tipos
+
         if quant == 0:
             layout.add_widget(Label(text="Não há contas cadastradas ainda", size_hint_y=None))
         else:
@@ -165,7 +168,8 @@ class AlteraContas(Screen):
                 Contas.add_widget(btn)
 
                 #Tipo da conta
-                Contas.add_widget(Info(text=f"{conta[2]}", size_hint_y=None))
+                TextoTipo = listaTipos[conta[2]-1]
+                Contas.add_widget(Info(text=f"{TextoTipo}", color=(.4, .4, .4, 1), size_hint_y=None))
                 
                 #Botão para excluir essa conta. Não há confirmação
                 btn2 = btnFunc(text='Excluir\nconta', size_hint_y=None)
