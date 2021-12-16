@@ -31,6 +31,8 @@ from model import db
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
 
+#Classe para o botão principal do 
+# menu dropdown
 class BtnPrincipal(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -40,6 +42,7 @@ class BtnPrincipal(Button):
         self.background_down="telas/imgs/bordaBotao.png"
         self.color="#272727"
 
+#Classe para os outros botões dropdown
 class BtnDropDown(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -47,6 +50,7 @@ class BtnDropDown(Button):
         self.background_color="#FFFFFF"
         self.color="#000000"
 
+#CLASSE KV
 class AdicionaConta(Screen):
 
     #elementos da interface
@@ -62,17 +66,22 @@ class AdicionaConta(Screen):
     #Tipo selecionado
     tipoEscolhido = ""
 
+    btn_principal = BtnPrincipal(text="Escolha o tipo")
+
     def __init__(self, **kw):
         super().__init__(**kw)
         #Menu dropdown
         
         #Botão principal
-        btn_principal = BtnPrincipal(text="Escolha o tipo")
-        self.layoutTipo.add_widget(btn_principal)
+        
+        self.layoutTipo.add_widget(self.btn_principal)
         
         #Itens dropdown
         dropdown = DropDown()
         for index in range(len(self.tiposDisponiveis)):
+            #Cada botão dropdown tem um valor escondido em seu texto. Esse valor 
+            # será o número cadastrado no banco de dados. O número corresponde
+            # ao tipo da conta
             btn = BtnDropDown(text = f'[color=#ffffff00]{index+1}[/color]{self.tiposDisponiveis[index]} ', size_hint_y = None, height = 44, 
             on_release = lambda btn: self.escolheuTipo(btn),
             markup=True)
@@ -83,15 +92,19 @@ class AdicionaConta(Screen):
             # then add the button inside the dropdown
             dropdown.add_widget(btn)
         
-        btn_principal.bind(on_release = dropdown.open)
+        self.btn_principal.bind(on_release = dropdown.open)
 
         # one last thing, listen for the selection in the
         # dropdown list and assign the data to the button text.
-        dropdown.bind(on_select = lambda instance, x: setattr(btn_principal, 'text', x))
+        dropdown.bind(on_select = lambda instance, x: setattr(self.btn_principal, 'text', x))
 
+    #Método para receber o valor escondido no texto do botão 
+    # dropdown para, na hora do cadastro da conta, 
+    # enviar-lo ao banco de dados
     def escolheuTipo(self, instance):
         self.tipoEscolhido=instance.text[17]
-        
+    
+    #Método para cadastrar uma conta
     def cadastraConta(self, nome, padrao):
         valido = True
 
@@ -127,18 +140,26 @@ class AdicionaConta(Screen):
                 AppConfig.set_config("contaPadrao", nome)
                 AppConfig.set_config("idConta", novaConta[0])
 
-            self.getNome.text = ""
-            # self.getTipo.text = ""
-            self.getPadrao.active = False
-
             #muda para a tela inicial
             self.manager.current="principal"
             self.manager.transition.direction = "right"
             self.manager.current_screen.setMensagem.text = 'Conta adicionada com sucesso!'
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
-            
+    
+    #Método para trocar o estado do checkbox pelo toque
+    # no label
     def trocaCheck(self, *args):
         antigoValor = self.getPadrao.active
         novoValor = not antigoValor 
         self.getPadrao.active = novoValor
+
+    #Esse é um evento disparado quando sai dessa tela
+    def on_leave(self, *args):
+        #Limpa o formulário
+        self.getNome.text=""
+        self.btn_principal.text="Escolha o tipo"
+        self.tipoEscolhido=""
+        self.getPadrao.active=False
+        return super().on_leave(*args)
+        

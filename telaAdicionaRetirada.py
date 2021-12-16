@@ -28,6 +28,7 @@ from model import db
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
 
+#CLASS KV
 class AdicionaRetirada(Screen):
     
     #elementos da interface
@@ -37,12 +38,14 @@ class AdicionaRetirada(Screen):
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
 
+    #Método para o valor que fica no canto superior esquerdo
     def atualizaSaldo(self, *args):
         dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
         saldo = float(dados[3])
         self.setSaldo.text = f"R$ {saldo:.2f}"
         self.setConta.text = AppConfig.get_config("contaPadrao")
 
+    #Método para adicionar uma retirada
     def adicionaRetirada(self, valor, descricao):
         valido = True
         
@@ -82,3 +85,10 @@ class AdicionaRetirada(Screen):
             self.manager.current_screen.setMensagem.text = "Valor retirado com sucesso."
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
+    
+    #Esse é um evento disparado quando sai dessa tela
+    def on_leave(self, *args):
+        #Limpa o formulário
+        self.getValor.text=""
+        self.getDescricao.text=""
+        return super().on_leave(*args)

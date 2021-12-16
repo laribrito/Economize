@@ -29,8 +29,8 @@ from model import db
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
 
-#Para manter a tela inicial organizada, essa classe
-# foi criada. Ela limita a entrada da descrição a 
+#Essa classe foi criada para manter a tela inicial 
+# organizada . Ela limita a entrada da descrição a 
 # 35 caracteres
 class LimitInput(TextInput):
     def keyboard_on_key_up(self, keycode, text):
@@ -41,9 +41,8 @@ class LimitInput(TextInput):
         if len(self.text) >= 36:
             self.text = self.text[:35]
 
-
+#CLASS KV
 class AdicionaGanho(Screen):
-
     #elementos da interface
     setMensagem = ObjectProperty(None)
     getValor = ObjectProperty(None)
@@ -51,12 +50,14 @@ class AdicionaGanho(Screen):
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
 
+    #Método para o valor que fica no canto superior esquerdo
     def atualizaSaldo(self, *args):
         dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
         saldo = float(dados[3])
         self.setSaldo.text = f"R$ {saldo:.2f}"
         self.setConta.text = AppConfig.get_config("contaPadrao")
 
+    #Método para adicionar um ganho
     def adicionaGanho(self, valor, descricao):
         valido = True
         
@@ -90,3 +91,13 @@ class AdicionaGanho(Screen):
             self.manager.current_screen.setMensagem.text = "Valor adicionado com sucesso."
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
+    
+      #Esse é um evento disparado quando sai dessa tela
+    
+    #Esse é um evento disparado quando sai dessa tela
+    def on_leave(self, *args):
+        #Limpa o formulário
+        self.getValor.text=""
+        self.getDescricao.text=""
+        return super().on_leave(*args)
+        
