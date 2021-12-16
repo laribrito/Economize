@@ -25,6 +25,8 @@ from kivy.lang import Builder
 from kivy.metrics import dp
 from kivy.properties import ObjectProperty
 import time
+from kivy.core.window import Window
+from kivy.graphics import Color, Rectangle
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/principal.kv")
@@ -34,6 +36,22 @@ from model import db
 
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
+
+class Desc(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text_size=(Window.width*2)/4, None
+        # self.max_lines = 2
+    #     with self.canvas.before:
+    #         Color(0.1,0.4,1,1)
+    #         self.rect = Rectangle(pos=self.pos, size=self.size)
+
+    #     self.bind(pos=self.update_rect)
+    #     self.bind(size=self.update_rect)
+
+    # def update_rect(self, *args):
+    #     self.rect.pos = self.pos
+    #     self.rect.size = self.size
 
 class Principal(Screen):
     #Listas que armazenarão objetos da tela
@@ -107,8 +125,7 @@ class Principal(Screen):
         # como ele já trocou o 'estadoBotao',
         # só basta recarregar o método
         time.sleep(0.1)
-        self.mostrarBotoes()
-        
+        self.mostrarBotoes()   
 
     def atualizaSaldo(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
@@ -208,9 +225,6 @@ class Principal(Screen):
 
         #Ordena pela datahora, do mais recente para o mais antigo
         tudo.sort(key=lambda x: x[4], reverse=True)
-        
-        for i in tudo:
-            print(i)
 
         if len(tudo) == 0:
             layout.add_widget(Label(text="Não há movimentações", 
@@ -230,12 +244,14 @@ class Principal(Screen):
                 if movimentacao[5] =="g":
                     sinal = Label(
                         text=" + ",
+                        size_hint_x=0.05,
                         color=(0,.9,0,1)
                     )
                     valor = Label(
-                        text=f" R${movimentacao[1]:.2f} "
+                        text=f" R${movimentacao[1]:.2f} ",
+                        size_hint_x=0.4
                     )
-                    desc = Label(
+                    desc = Desc(
                         text=f" {movimentacao[2]} "
                     )
                     grid.add_widget(sinal)
@@ -244,12 +260,14 @@ class Principal(Screen):
                 else:
                     sinal = Label(
                         text=" - ",
+                        size_hint_x=0.1,
                         color=(.9,0,0,1)
                     )
                     valor = Label(
-                        text=f" R${movimentacao[1]:.2f} "
+                        text=f" R${movimentacao[1]:.2f} ",
+                        size_hint_x=0.4
                     )
-                    desc = Label(
+                    desc = Desc(
                         text=f" {movimentacao[2]} "
                     )
                     grid.add_widget(sinal)

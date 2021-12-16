@@ -18,6 +18,7 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
+from kivy.uix.textinput import TextInput
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaGanho.kv")
@@ -27,6 +28,19 @@ from model import db
 
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
+
+#Para manter a tela inicial organizada, essa classe
+# foi criada. Ela limita a entrada da descrição a 
+# 35 caracteres
+class LimitInput(TextInput):
+    def keyboard_on_key_up(self, keycode, text):
+        if text[0] == 'backspace':
+            self.do_backspace()
+
+    def on_text(self, instance, value):
+        if len(self.text) >= 36:
+            self.text = self.text[:35]
+
 
 class AdicionaGanho(Screen):
 
