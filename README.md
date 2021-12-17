@@ -10,7 +10,7 @@
  <a href="#requisitos">Pré-requisitos e run</a> • 
  <a href="#tecnologias">Tecnologias</a> • 
  <a href="#galeria">Galeria</a> • 
- <a href="#autor">Autor</a>
+ <a href="#autor">Autoria</a>
 </p>
 
 <div align='center'>
