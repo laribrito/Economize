@@ -1,3 +1,6 @@
+<div align='center'>
+ <img src='.imagens/icone.png' width=150>
+</div>
 <h1 align="center">Economize!</h1>
 <p align="center">Aplicativo android feito em Kivy para controlar gastos de forma mais simples e objetiva</p>
 
