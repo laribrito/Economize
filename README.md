@@ -70,5 +70,5 @@ As seguintes ferramentas foram usadas na construção do projeto:
 Feito por Larissa de Brito 👋🏽 Entre em contato!
 
 [![Twitter Badge](https://img.shields.io/badge/-@laribrit0-1ca0f1?style=flat-square&labelColor=1ca0f1&logo=twitter&logoColor=white&link=https://twitter.com/laribrit0)](https://twitter.com/laribrit0) 
-[![Linkedin Badge](https://img.shields.io/badge/-Larissa-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/larissa-brito01/)](https://www.linkedin.com/in/larissa-brito01/) 
+[![Linkedin Badge](https://img.shields.io/badge/-Larissa-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/larissa-brit0/)](https://www.linkedin.com/in/larissa-brit0/) 
 [![Gmail Badge](https://img.shields.io/badge/-lary.29.ds@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:lary.29.ds@gmail.com)](mailto:lary.29.ds@gmail.com)
