@@ -46,14 +46,14 @@
                 text_size: self.width, None
                 text:'Valor: *'
                 size_hint_y: 1
-            RecebeValor:
+            InputRetirada:
                 id: getValor
             Label:
                 haling: "left"
                 text_size: self.width, None
                 text: "Descrição: *"
                 size_hint_y: 1
-            LimitInput:
+            LimitInputRetirada:
                 id: getDescricao
                 hint_text: "Onde você gastou esse dinheiro?"
             Label:
@@ -68,12 +68,7 @@
                 size_hint_y: None
                 text: " "
                 height: self.texture_size[1]                
-            Button:
-                text:'Adicionar'
-                size_hint_x: 0.5
-                size_hint_y: None
-                height: self.texture_size[1] + dp(10)
-                background_normal: ""
+            BtnAdicionarRetirada:
                 background_color: "#C24040"
                 on_press:
                     root.adicionaRetirada(getValor.text, getDescricao.text)
@@ -88,13 +83,7 @@
                 size_hint_x: 0.3
                 size_hint_y: None
                 height: self.texture_size[1]
-            Button:
-                text:'Cancelar'
-                size_hint_x: 0.40
-                size_hint_y: None
-                height: self.texture_size[1] + dp(10)
-                background_normal: ""
-                background_color: "#724747"
+            BtnCancelarRetirada:
                 on_press:
                     root.manager.current="principal"
                     root.manager.transition.direction="right"
@@ -105,6 +94,8 @@
                 size_hint_y: None
                 height: self.texture_size[1]
         
+            #Por algum motivo isso diminue o tamanho do 
+            #botão de cancelar e eu curti
             Label:
                 text: " "
                 height: self.texture_size[1] 
@@ -114,6 +105,8 @@
             Label:
                 text: " "
                 height: self.texture_size[1]
+
+    #Saldo que aparece no canto superior direito
     AnchorLayout:
         anchor_x: 'right'
         anchor_y: 'top'

@@ -16,6 +16,7 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from kivy.uix.screenmanager import Screen
+from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
 
@@ -27,6 +28,22 @@ from model import db
 
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
+
+#Essa classe foi criada para manter a tela inicial 
+# organizada . Ela limita a entrada da descrição a 
+# 35 caracteres
+class LimitInputRetirada(TextInput):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.background_active= 'telas/imgs/bordaBotaoAtivoVermelho.png'
+
+    def keyboard_on_key_up(self, keycode, text):
+        if text[0] == 'backspace':
+            self.do_backspace()
+
+    def on_text(self, instance, value):
+        if len(self.text) >= 36:
+            self.text = self.text[:35]
 
 #CLASS KV
 class AdicionaRetirada(Screen):

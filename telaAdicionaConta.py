@@ -36,7 +36,7 @@ from appConfig import AppConfig
 class BtnPrincipal(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.height= self.texture_size[1] + dp(40)
+        self.font_size= 20
         self.markup=True
         self.background_normal="telas/imgs/bordaBotao.png"
         self.background_down="telas/imgs/bordaBotao.png"
@@ -46,6 +46,7 @@ class BtnPrincipal(Button):
 class BtnDropDown(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.font_size= 20
         self.background_normal="telas/imgs/borda.png"
         self.background_color="#FFFFFF"
         self.color="#000000"

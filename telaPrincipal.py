@@ -37,6 +37,7 @@ from model import db
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
 
+#Classe para a descrição do ganho/retirada
 class Desc(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -53,6 +54,15 @@ class Desc(Label):
     #     self.rect.pos = self.pos
     #     self.rect.size = self.size
 
+#Classe para os botões da tela inicial
+class BtnImagensPrincipal(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size=('60','60')
+        self.border=(0,0,0,0)
+        self.size_hint=(None,None)
+
+#CLASSE KV
 class Principal(Screen):
     #Listas que armazenarão objetos da tela
     raiz = []
@@ -71,17 +81,12 @@ class Principal(Screen):
             #Se o estado for True, limpa a tela
             self.boxBotoes.clear_widgets()
 
-            #Troca a tela do botão
-            self.estadoBotao = not self.estadoBotao
         else:
             #Se o estado for False, exibe os botoes
 
             #ADICIONA GANHO
-            btn1 = Button(
-            size_hint=(None,None),
+            btn1 = BtnImagensPrincipal(
             pos_hint={"x": 0.8, "y": 0.5},
-            size=('60','60'),
-            border=(0,0,0,0),
             background_normal="telas/imgs/mais_normal.png",
             background_down="telas/imgs/mais_down.png"
             )
@@ -89,11 +94,8 @@ class Principal(Screen):
             self.boxBotoes.add_widget(btn1)                        
 
             #CONTAS
-            btn3 = Button(
+            btn3 = BtnImagensPrincipal(
             pos_hint={"x": 0.64, "y": 0.35},
-            size_hint=(None,None),
-            size=('60','60'),
-            border=(0,0,0,0),
             background_normal="telas/imgs/contas_normal.png",
             background_down="telas/imgs/contas_down.png"
             )
@@ -101,19 +103,16 @@ class Principal(Screen):
             self.boxBotoes.add_widget(btn3)
 
             #ADICIONA RETIRADA
-            btn2 = Button(
+            btn2 = BtnImagensPrincipal(
             pos_hint= {"x": 0.55, "y": 0.07},
-            size_hint=(None,None),
-            size=('60','60'),
-            border=(0,0,0,0),
             background_normal="telas/imgs/menos_normal.png",
             background_down="telas/imgs/menos_down.png"
             )
             btn2.bind(on_press=self.podeAdicionarRetirada)
             self.boxBotoes.add_widget(btn2)
 
-            #Troca o estado do botão
-            self.estadoBotao = not self.estadoBotao
+        #Troca o estado do botão
+        self.estadoBotao = not self.estadoBotao
 
     def telaContas(self,*args):
         #Muda de tela

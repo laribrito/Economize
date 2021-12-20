@@ -63,11 +63,11 @@ class btnFunc(Button):
         def on_size(self, *args):
             self.size_hint_y=None
             self.size_hint_x=0.5
-            self.height=dp(60)
+            # self.height=dp(40)
             self.halign="center"
-            self.font_size="16sp"
-            self.background_color="#476272"
-            self.background_normal=""
+            self.font_size=16
+            self.background_normal= "telas/imgs/btnAzul02.png"
+            self.background_down= "telas/imgs/btnAzul02.png"
                         
 #Classe para o label que se comportará como uma linha
 #   LINHA

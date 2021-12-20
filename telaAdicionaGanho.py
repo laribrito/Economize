@@ -32,7 +32,11 @@ from appConfig import AppConfig
 #Essa classe foi criada para manter a tela inicial 
 # organizada . Ela limita a entrada da descrição a 
 # 35 caracteres
-class LimitInput(TextInput):
+class LimitInputGanho(TextInput):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.background_active= 'telas/imgs/bordaBotaoAtivoVerde.png'
+
     def keyboard_on_key_up(self, keycode, text):
         if text[0] == 'backspace':
             self.do_backspace()

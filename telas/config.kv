@@ -21,6 +21,7 @@
             pos: self.pos
             size: self.size
 
+##################################################################################
 <Label>
     #Cor dos textos
     color: 0,0,0,1
@@ -33,29 +34,81 @@
     font_size: "20sp"
     haling: "center"
 
+##################################################################################
 <Button>
     #Cor dos textos dos botões
     color: 1,1,1,1
     #Altura dos botões
     #   precisa ser copiado para não atrapalhar
     #   outros widgets
-    # size_hint_y: None
-    # height: self.texture_size[1] + dp(20)
-
-<TextInput>
-    # Altura do TextInput igual a uma linha de texto + 10 (5 de espaço em cima e embaixo)
     size_hint_y: None
-    height: self.line_height + dp(10)
+    height: self.texture_size[1] + dp(20)
+
+<BtnCancelarRetirada@Button>
+    text:'Cancelar'
+    size_hint_x: 0.40
+    height: self.texture_size[1] + dp(15)
+    background_normal: "telas/imgs/btnVermelho02.png"
+    background_down: "telas/imgs/btnVermelho02.png"
+
+<BtnCancelarGanho@Button>
+    text:'Cancelar'
+    size_hint_x: 0.40
+    height: self.texture_size[1] + dp(15)
+    background_normal: "telas/imgs/btnVerde02.png"
+    background_down: "telas/imgs/btnVerde02.png"
+
+<BtnCancelarConta@Button>
+    text:'Cancelar'
+    size_hint_x: 0.40
+    height: self.texture_size[1] + dp(15)
+    background_normal: "telas/imgs/btnAzul02.png"
+    background_down: "telas/imgs/btnAzul02.png"
+
+<BtnAdicionarRetirada@Button>
+    text:'Adicionar'
+    size_hint_x: 0.5
+    background_normal: "telas/imgs/btnVermelho.png"
+    background_down: "telas/imgs/btnVermelho.png"
+
+<BtnAdicionarGanho@Button>
+    text:'Adicionar'
+    size_hint_x: 0.5
+    background_normal: "telas/imgs/btnVerde.png"
+    background_down: "telas/imgs/btnVerde.png"
+
+##################################################################################
+<TextInput>
+    # Altura do TextInput igual a uma linha de texto + 20 (10 de espaço em cima e embaixo)
+    size_hint_y: None
+    height: self.line_height + dp(20)
+    padding_y: (dp(10),dp(10)) 
     # Sem múltiplas linhas
     multiline: False
     # O TAB não entra no texto, ao invés disso, pula pro próximo campo
     write_tab: False
+    #Cor do cursor
     cursor_color: (0,0,0,1)
+    #Imagem normal
+    background_normal: "telas/imgs/bordaBotao.png"
 
-<RecebeValor@TextInput>
+<InputConta@TextInput>
+    #Imagem no foco
+    background_active: 'telas/imgs/bordaBotaoAtivoAzul.png'
+
+<InputGanho@TextInput>
+    #Imagem no foco
+    background_active: 'telas/imgs/bordaBotaoAtivoVerde.png'
     hint_text: "Ex.: R$ 1234.54"
     input_filter: "float"
 
+<InputRetirada@TextInput>
+    #Imagem no foco
+    background_active: 'telas/imgs/bordaBotaoAtivoVermelho.png'
+    hint_text: "Ex.: R$ 1234.54"
+    input_filter: "float"
+
+##################################################################################
 <ScrollView>
     # Rolagem apenas na vertical
     do_scroll_x: False
@@ -67,6 +120,7 @@
             pos: self.pos
             size: self.size
 
+##################################################################################
 <BoxLayout>
     # Configuração necessária para o ScrollView funcionar
     height: self.minimum_height
@@ -80,6 +134,7 @@
             pos: self.pos
             size: self.size
 
+##################################################################################
 <GridLayout>
     # Configuração necessária para o ScrollView funcionar
     height: self.minimum_height
