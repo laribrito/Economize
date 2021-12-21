@@ -15,6 +15,7 @@ You should have received a copy of the GNU General Public License
 along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from kivy.core import window
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
@@ -58,7 +59,7 @@ class Desc(Label):
 class BtnImagensPrincipal(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.size=('60','60')
+        self.size=(f'{Window.width*0.14}',f'{Window.width*0.14}')
         self.border=(0,0,0,0)
         self.size_hint=(None,None)
 
@@ -86,7 +87,8 @@ class Principal(Screen):
 
             #ADICIONA GANHO
             btn1 = BtnImagensPrincipal(
-            pos_hint={"x": 0.8, "y": 0.5},
+            y=Window.width - ((Window.width*3)/5) - (Window.width*0.14),
+            x=Window.width - (Window.width/40) - (Window.width*0.14),
             background_normal="telas/imgs/mais_normal.png",
             background_down="telas/imgs/mais_down.png"
             )
@@ -95,16 +97,20 @@ class Principal(Screen):
 
             #CONTAS
             btn3 = BtnImagensPrincipal(
-            pos_hint={"x": 0.64, "y": 0.35},
+            y=Window.width/5,
+            x=Window.width - (Window.width/5) - (Window.width*0.14),
             background_normal="telas/imgs/contas_normal.png",
             background_down="telas/imgs/contas_down.png"
             )
             btn3.bind(on_press=self.telaContas)
             self.boxBotoes.add_widget(btn3)
 
+            # print(Window.width)
+
             #ADICIONA RETIRADA
             btn2 = BtnImagensPrincipal(
-            pos_hint= {"x": 0.55, "y": 0.07},
+            y=Window.width/40,
+            x=(Window.width*3)/5,
             background_normal="telas/imgs/menos_normal.png",
             background_down="telas/imgs/menos_down.png"
             )
@@ -120,11 +126,7 @@ class Principal(Screen):
         self.manager.transition.direction="left"
         self.manager.current_screen.exibirContas()
 
-        #Fecha o menu da tela principal
-        # como ele já trocou o 'estadoBotao',
-        # só basta recarregar o método
-        time.sleep(0.1)
-        self.mostrarBotoes()   
+        #O método que estava aqui será chamado pelo evento on_leave() 
 
     def atualizaSaldo(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
@@ -143,11 +145,7 @@ class Principal(Screen):
             self.manager.transition.direction="left"
             self.manager.current_screen.atualizaSaldo()
 
-            #Fecha o menu da tela principal
-            # como ele já trocou o 'estadoBotao',
-            # só basta recarregar o método
-            time.sleep(0.1)
-            self.mostrarBotoes()        
+            #O método que estava aqui será chamado pelo evento on_leave()        
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar um ganho é\nnecessário uma conta padrão."
@@ -164,12 +162,7 @@ class Principal(Screen):
                 self.manager.transition.direction="left"
                 self.manager.current_screen.atualizaSaldo()
 
-                #Fecha o menu da tela principal
-                # como ele já trocou o 'estadoBotao',
-                # só basta recarregar o método
-                time.sleep(0.1)
-                self.mostrarBotoes()
-                
+                #O método que estava aqui será chamado pelo evento on_leave()               
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar uma retirada é\nnecessário uma conta padrão."
@@ -289,3 +282,11 @@ class Principal(Screen):
             #Salva o objeto ScrollView
             self.raiz = rolagem
             self.add_widget(rolagem, index=2)
+
+    def on_leave(self, *args):
+        #Fecha o menu da tela principal
+        # como ele já trocou o 'estadoBotao',
+        # só basta recarregar o método
+        self.mostrarBotoes()  
+        return super().on_leave(*args)
+        
