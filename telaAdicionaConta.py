@@ -40,7 +40,7 @@ class BtnPrincipal(Button):
         self.font_size= 20
         self.markup=True
         self.background_normal="telas/imgs/bordaBotao.png"
-        self.background_down="telas/imgs/bordaBotao.png"
+        self.background_down="telas/imgs/bordaBotaoAtivoAzul.png"
         self.color="#272727"
 
 #Classe para os outros botões dropdown
@@ -99,6 +99,11 @@ class AdicionaConta(Screen):
         # one last thing, listen for the selection in the
         # dropdown list and assign the data to the button text.
         dropdown.bind(on_select = lambda instance, x: setattr(self.btn_principal, 'text', x))
+
+        #Quando o botão principal for pressionado, ele fica azul
+        self.btn_principal.bind(on_press = self.trocaDropdownAzul)
+        #Quando o dropdown fechar, o botão principal volta ao normal
+        dropdown.bind(on_dismiss=self.trocaDropdownNormal)
 
     #Método para receber o valor escondido no texto do botão 
     # dropdown para, na hora do cadastro da conta, 
@@ -160,6 +165,12 @@ class AdicionaConta(Screen):
         antigoValor = self.getPadrao.active
         novoValor = not antigoValor 
         self.getPadrao.active = novoValor
+
+    def trocaDropdownAzul(self, *args):
+        self.btn_principal.background_normal="telas/imgs/bordaBotaoAtivoAzul.png"
+
+    def trocaDropdownNormal(self, *args):
+        self.btn_principal.background_normal="telas/imgs/bordaBotao.png"
 
     def limpaMensagens(self, dt):
         self.setMensagem.text = ""
