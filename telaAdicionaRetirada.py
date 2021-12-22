@@ -18,8 +18,8 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
-from kivy.properties import ObjectProperty
 from kivy.clock import Clock
+from kivy.properties import ObjectProperty
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaRetirada.kv")

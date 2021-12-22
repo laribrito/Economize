@@ -16,16 +16,16 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from kivy.uix.screenmanager import Screen
-from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from functools import partial
+from kivy.lang import Builder
 from kivy.graphics import Color, Rectangle
-from kivy.metrics import dp
 from kivy.properties import ObjectProperty
+from kivy.metrics import dp
 
 #Carrega a tela .kv correspondente
 Builder.load_file("telas/alteraContas.kv")

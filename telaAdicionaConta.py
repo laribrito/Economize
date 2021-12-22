@@ -16,12 +16,12 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from kivy.uix.screenmanager import Screen
-from kivy.lang import Builder
-from kivy.properties import ObjectProperty
 from kivy.uix.button import Button
-from kivy.metrics import dp
 from kivy.uix.dropdown import DropDown
+from kivy.lang import Builder
 from kivy.clock import Clock
+from kivy.properties import ObjectProperty
+from kivy.metrics import dp
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaConta.kv")
