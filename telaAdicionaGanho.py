@@ -36,7 +36,7 @@ from appConfig import AppConfig
 class LimitInputGanho(TextInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.background_active= 'telas/imgs/bordaBotaoAtivoVerde.png'
+        self.background_active= 'imgs/bordaBotaoAtivoVerde.png'
 
     def keyboard_on_key_up(self, keycode, text):
         if text[0] == 'backspace':

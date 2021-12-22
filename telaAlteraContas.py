@@ -66,8 +66,8 @@ class btnFunc(Button):
             # self.height=dp(40)
             self.halign="center"
             self.font_size=16
-            self.background_normal= "telas/imgs/btnAzul02.png"
-            self.background_down= "telas/imgs/btnAzul02.png"
+            self.background_normal= "imgs/btnAzul02.png"
+            self.background_down= "imgs/btnAzul02.png"
                         
 #Classe para o label que se comportará como uma linha
 #   LINHA

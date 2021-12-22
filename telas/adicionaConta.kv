@@ -62,8 +62,8 @@
                 CheckBox:
                     size_hint_x: 0.4
                     id: getPadrao
-                    background_checkbox_normal: "telas/imgs/checkbox_normal.png"
-                    background_checkbox_down: "telas/imgs/checkbox_down.png"
+                    background_checkbox_normal: "imgs/checkbox_normal.png"
+                    background_checkbox_down: "imgs/checkbox_down.png"
                     size_hint_y: None
                     border: 0,0,0,0
                 Label:
@@ -88,8 +88,8 @@
             Button:
                 text:'Criar'
                 size_hint_x: 0.5
-                background_normal: "telas/imgs/btnAzul.png"
-                background_down: "telas/imgs/btnAzul.png"
+                background_normal: "imgs/btnAzul.png"
+                background_down: "imgs/btnAzul.png"
                 on_press:
                     root.cadastraConta(getNome.text, getPadrao.active)
             Label:

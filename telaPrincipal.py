@@ -88,8 +88,8 @@ class Principal(Screen):
             btn1 = BtnImagensPrincipal(
             y=Window.width - ((Window.width*3)/5) - (Window.width*0.14),
             x=Window.width - (Window.width/40) - (Window.width*0.14),
-            background_normal="telas/imgs/mais_normal.png",
-            background_down="telas/imgs/mais_down.png"
+            background_normal="imgs/mais_normal.png",
+            background_down="imgs/mais_down.png"
             )
             btn1.bind(on_press=self.podeAdicionarGanho)
             self.boxBotoes.add_widget(btn1)                        
@@ -98,8 +98,8 @@ class Principal(Screen):
             btn3 = BtnImagensPrincipal(
             y=Window.width/5,
             x=Window.width - (Window.width/5) - (Window.width*0.14),
-            background_normal="telas/imgs/contas_normal.png",
-            background_down="telas/imgs/contas_down.png"
+            background_normal="imgs/contas_normal.png",
+            background_down="imgs/contas_down.png"
             )
             btn3.bind(on_press=self.telaContas)
             self.boxBotoes.add_widget(btn3)
@@ -110,8 +110,8 @@ class Principal(Screen):
             btn2 = BtnImagensPrincipal(
             y=Window.width/40,
             x=(Window.width*3)/5,
-            background_normal="telas/imgs/menos_normal.png",
-            background_down="telas/imgs/menos_down.png"
+            background_normal="imgs/menos_normal.png",
+            background_down="imgs/menos_down.png"
             )
             btn2.bind(on_press=self.podeAdicionarRetirada)
             self.boxBotoes.add_widget(btn2)

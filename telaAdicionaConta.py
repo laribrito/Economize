@@ -39,8 +39,8 @@ class BtnPrincipal(Button):
         super().__init__(**kwargs)
         self.font_size= 20
         self.markup=True
-        self.background_normal="telas/imgs/bordaBotao.png"
-        self.background_down="telas/imgs/bordaBotaoAtivoAzul.png"
+        self.background_normal="imgs/bordaBotao.png"
+        self.background_down="imgs/bordaBotaoAtivoAzul.png"
         self.color="#272727"
 
 #Classe para os outros botões dropdown
@@ -48,7 +48,7 @@ class BtnDropDown(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.font_size= 20
-        self.background_normal="telas/imgs/borda.png"
+        self.background_normal="imgs/borda.png"
         self.background_color="#FFFFFF"
         self.color="#000000"
 
@@ -167,10 +167,10 @@ class AdicionaConta(Screen):
         self.getPadrao.active = novoValor
 
     def trocaDropdownAzul(self, *args):
-        self.btn_principal.background_normal="telas/imgs/bordaBotaoAtivoAzul.png"
+        self.btn_principal.background_normal="imgs/bordaBotaoAtivoAzul.png"
 
     def trocaDropdownNormal(self, *args):
-        self.btn_principal.background_normal="telas/imgs/bordaBotao.png"
+        self.btn_principal.background_normal="imgs/bordaBotao.png"
 
     def limpaMensagens(self, dt):
         self.setMensagem.text = ""
