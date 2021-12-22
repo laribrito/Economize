@@ -19,6 +19,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 from kivy.properties import ObjectProperty
+from kivy.clock import Clock
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaRetirada.kv")
@@ -72,6 +73,7 @@ class AdicionaRetirada(Screen):
         except ValueError:
             self.setMensagem.text = "Valor inválido. Digite somente números."
             valido = False
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
 
         #ERRO: valor de retirada é maior que o saldo da conta
         conta = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
@@ -79,6 +81,8 @@ class AdicionaRetirada(Screen):
             if valor > conta[3]:
                 self.setMensagem.text = "Valor inválido. Saldo insuficiente."
                 valido=False
+                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+
         except TypeError:
             pass
 
@@ -86,6 +90,7 @@ class AdicionaRetirada(Screen):
         if valor == "" or descricao == "":
             self.setMensagem.text = "Preencha todos os campos."
             valido = False
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
         
         #SUCESSO
         if valido:
@@ -103,9 +108,17 @@ class AdicionaRetirada(Screen):
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     
+    def limpaMensagens(self, dt):
+        self.setMensagem.text = ""
+
+
     #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):
         #Limpa o formulário
         self.getValor.text=""
         self.getDescricao.text=""
         return super().on_leave(*args)
+
+    def on_enter(self, *args):
+        self.getValor.focus=True
+        return super().on_enter(*args)

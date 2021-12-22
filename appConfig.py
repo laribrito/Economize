@@ -32,6 +32,7 @@ import json
 class AppConfig:
     config = {}
     tipos = ["Dinheiro", "Saldo", "Investimento"]
+    tempoLimpar = 3
 
     '''
     Carrega a configuração do arquivo JSON.

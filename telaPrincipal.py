@@ -28,6 +28,7 @@ from kivy.properties import ObjectProperty
 import time
 from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle
+from kivy.clock import Clock
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/principal.kv")
@@ -149,6 +150,7 @@ class Principal(Screen):
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar um ganho é\nnecessário uma conta padrão."
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
     
     def podeAdicionarRetirada(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
@@ -156,6 +158,7 @@ class Principal(Screen):
             if conta[3] == 0:
                 #ERRO: Saldo da conta padrão é igual a 0
                 self.setMensagem.text = "Para adicionar uma retirada é\nnecessário saldo maior que zero."
+                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
             else:
                 #Muda de tela
                 self.manager.current="adicionaRetirada"
@@ -166,6 +169,7 @@ class Principal(Screen):
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar uma retirada é\nnecessário uma conta padrão."
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
     
     def mostrarMovimentacoes(self):
         #Para que a tela apareça de forma correta é necessário 
@@ -283,10 +287,16 @@ class Principal(Screen):
             self.raiz = rolagem
             self.add_widget(rolagem, index=2)
 
+    def limpaMensagens(self, dt):
+        self.setMensagem.text = ""
+
     def on_leave(self, *args):
         #Fecha o menu da tela principal
         # como ele já trocou o 'estadoBotao',
         # só basta recarregar o método
         self.mostrarBotoes()  
+
+        #Limpa as mensagens de erro
+        self.setMensagem.text = ""
         return super().on_leave(*args)
         

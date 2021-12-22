@@ -21,6 +21,7 @@ from kivy.properties import ObjectProperty
 from kivy.uix.button import Button
 from kivy.metrics import dp
 from kivy.uix.dropdown import DropDown
+from kivy.clock import Clock
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaConta.kv")
@@ -114,6 +115,7 @@ class AdicionaConta(Screen):
         if conta != None:
             self.setMensagem.text = "Essa conta já existe. Insira um outro nome."
             valido = False
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
 
         #ERRO: 'tipo' não é um número
         try:
@@ -122,15 +124,19 @@ class AdicionaConta(Screen):
             if tipo > len(self.tiposDisponiveis) or tipo < 1:
                 self.setMensagem.text = "Tipo de conta inválido. Valor não disponível."
                 valido = False
+                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+                
         except ValueError:
             self.setMensagem.text = "Tipo de conta inválido. Digite um número."
             valido = False
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
         
         #ERRO: algum campo vazio
         if nome == "" or self.tipoEscolhido =="":
             
             self.setMensagem.text = "Preencha todos os campos."
             valido = False
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
 
         #SUCESSO
         if valido:
@@ -155,6 +161,9 @@ class AdicionaConta(Screen):
         novoValor = not antigoValor 
         self.getPadrao.active = novoValor
 
+    def limpaMensagens(self, dt):
+        self.setMensagem.text = ""
+
     #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):
         #Limpa o formulário
@@ -164,3 +173,6 @@ class AdicionaConta(Screen):
         self.getPadrao.active=False
         return super().on_leave(*args)
         
+    def on_enter(self, *args):
+        self.getNome.focus=True
+        return super().on_enter(*args)
