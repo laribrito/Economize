@@ -23,6 +23,7 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from functools import partial
 from kivy.lang import Builder
+from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
@@ -92,6 +93,7 @@ class AlteraContas(Screen):
         self.manager.current="principal"
         self.manager.transition.direction = "right"
         self.manager.current_screen.setMensagem.text = 'Conta padrão alterada com sucesso!'
+        Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
         self.manager.current_screen.atualizaSaldo()
         self.manager.current_screen.mostrarMovimentacoes()
 
@@ -106,6 +108,7 @@ class AlteraContas(Screen):
         self.manager.current="principal"
         self.manager.transition.direction = "right"
         self.manager.current_screen.setMensagem.text = 'Conta excluida com sucesso!'
+        Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
         self.manager.current_screen.atualizaSaldo()
 
     def exibirContas(self):

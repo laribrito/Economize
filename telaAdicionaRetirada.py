@@ -105,6 +105,7 @@ class AdicionaRetirada(Screen):
             self.manager.current = "principal"
             self.manager.transition.direction = "right"
             self.manager.current_screen.setMensagem.text = "Valor retirado com sucesso."
+            Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     
