@@ -14,7 +14,7 @@
 </p>
 
 <div align='center'>
-  <img src='https://img.shields.io/static/v1?label=version&message=v0.2.0&color=brightgreen&style=flat-square'> 
+  <img src='https://img.shields.io/static/v1?label=version&message=v1.1.0&color=brightgreen&style=flat-square'> 
   <img src='https://img.shields.io/static/v1?label=license&message=GPL 3.0&color=orange&style=flat-square'>
   <img src='https://img.shields.io/static/v1?label=status&message=Em andamento&color=informational&style=flat-square'>
 </div>
