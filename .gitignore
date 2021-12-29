@@ -11,5 +11,4 @@ model/dados.db
 .buildozer
 buildozer.spec
 bin/
-icone.png
 splash.png

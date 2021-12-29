@@ -43,12 +43,10 @@
         FloatLayout:
             Button:
                 size_hint_x: 0.7
-                size_hint_y: None
                 pos_hint: {'center_y': .5, "x": 0.15}
-                height: self.texture_size[1] + dp(20)
                 text:'Voltar'
-                background_color:"#476272"
-                background_normal:""
+                background_normal: "imgs/btnAzul02.png"
+                background_down: "imgs/btnAzul02.png"
                 on_press:
                     root.manager.current="principal"
                     root.manager.transition.direction="right"
@@ -57,11 +55,10 @@
         FloatLayout:
             Button:
                 text:'Nova Conta'
-                size_hint_y: None
                 pos_hint: {'center_y': .5, "right": 0.94}
                 height: self.texture_size[1] + dp(30)
-                background_color:"#6A96CA"
-                background_normal:""
+                background_normal: "imgs/btnAzul.png"
+                background_down: "imgs/btnAzul.png"
                 on_press:
                     root.manager.current="adicionaConta"
                     root.manager.transition.direction="left"

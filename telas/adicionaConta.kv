@@ -46,7 +46,7 @@
                 text_size: self.width, None
                 text:'Nome: *'
                 size_hint_y: 1
-            TextInput:
+            InputConta:
                 id: getNome
             Label:
                 haling: "left"
@@ -62,9 +62,10 @@
                 CheckBox:
                     size_hint_x: 0.4
                     id: getPadrao
-                    background_checkbox_normal: "telas/imgs/checkbox_normal.png"
-                    background_checkbox_down: "telas/imgs/checkbox_down.png"
+                    background_checkbox_normal: "imgs/checkbox_normal.png"
+                    background_checkbox_down: "imgs/checkbox_down.png"
                     size_hint_y: None
+                    border: 0,0,0,0
                 Label:
                     text:'[ref=""]Tornar conta padrão[/ref]'
                     markup: True
@@ -87,10 +88,8 @@
             Button:
                 text:'Criar'
                 size_hint_x: 0.5
-                size_hint_y: None
-                height: self.texture_size[1] + dp(10)
-                background_normal: ""
-                background_color: "#6A96CA"
+                background_normal: "imgs/btnAzul.png"
+                background_down: "imgs/btnAzul.png"
                 on_press:
                     root.cadastraConta(getNome.text, getPadrao.active)
             Label:
@@ -104,13 +103,7 @@
                 size_hint_x: 0.3
                 size_hint_y: None
                 height: self.texture_size[1]
-            Button:
-                text:'Cancelar'
-                size_hint_x: 0.40
-                size_hint_y: None
-                height: self.texture_size[1] + dp(10)
-                background_normal: ""
-                background_color: "#476272"
+            BtnCancelarConta:
                 on_press:
                     root.manager.current="alteraContas"
                     root.manager.transition.direction="right"
@@ -120,3 +113,16 @@
                 size_hint_x: 0.3
                 size_hint_y: None
                 height: self.texture_size[1]
+
+            #Por algum motivo isso diminue o tamanho do 
+            #botão de cancelar e eu curti
+            Label:
+                text: " "
+                height: self.texture_size[1] 
+            Label:
+                text: " "
+                height: self.texture_size[1] 
+            Label:
+                text: " "
+                height: self.texture_size[1]
+                

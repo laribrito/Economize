@@ -16,16 +16,17 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 from kivy.uix.screenmanager import Screen
-from kivy.lang import Builder
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.button import Button
 from functools import partial
+from kivy.lang import Builder
+from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
-from kivy.metrics import dp
 from kivy.properties import ObjectProperty
+from kivy.metrics import dp
 
 #Carrega a tela .kv correspondente
 Builder.load_file("telas/alteraContas.kv")
@@ -63,11 +64,11 @@ class btnFunc(Button):
         def on_size(self, *args):
             self.size_hint_y=None
             self.size_hint_x=0.5
-            self.height=dp(60)
+            # self.height=dp(40)
             self.halign="center"
-            self.font_size="16sp"
-            self.background_color="#476272"
-            self.background_normal=""
+            self.font_size=16
+            self.background_normal= "imgs/btnAzul02.png"
+            self.background_down= "imgs/btnAzul02.png"
                         
 #Classe para o label que se comportará como uma linha
 #   LINHA
@@ -92,6 +93,7 @@ class AlteraContas(Screen):
         self.manager.current="principal"
         self.manager.transition.direction = "right"
         self.manager.current_screen.setMensagem.text = 'Conta padrão alterada com sucesso!'
+        Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
         self.manager.current_screen.atualizaSaldo()
         self.manager.current_screen.mostrarMovimentacoes()
 
@@ -106,6 +108,7 @@ class AlteraContas(Screen):
         self.manager.current="principal"
         self.manager.transition.direction = "right"
         self.manager.current_screen.setMensagem.text = 'Conta excluida com sucesso!'
+        Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
         self.manager.current_screen.atualizaSaldo()
 
     def exibirContas(self):

@@ -22,11 +22,11 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.lang import Builder
-from kivy.metrics import dp
-from kivy.properties import ObjectProperty
-import time
 from kivy.core.window import Window
-from kivy.graphics import Color, Rectangle
+from kivy.clock import Clock
+# from kivy.graphics import Color, Rectangle
+from kivy.properties import ObjectProperty
+from kivy.metrics import dp
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/principal.kv")
@@ -37,6 +37,7 @@ from model import db
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
 
+#Classe para a descrição do ganho/retirada
 class Desc(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -53,6 +54,15 @@ class Desc(Label):
     #     self.rect.pos = self.pos
     #     self.rect.size = self.size
 
+#Classe para os botões da tela inicial
+class BtnImagensPrincipal(Button):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size=(f'{Window.width*0.14}',f'{Window.width*0.14}')
+        self.border=(0,0,0,0)
+        self.size_hint=(None,None)
+
+#CLASSE KV
 class Principal(Screen):
     #Listas que armazenarão objetos da tela
     raiz = []
@@ -71,49 +81,43 @@ class Principal(Screen):
             #Se o estado for True, limpa a tela
             self.boxBotoes.clear_widgets()
 
-            #Troca a tela do botão
-            self.estadoBotao = not self.estadoBotao
         else:
             #Se o estado for False, exibe os botoes
 
             #ADICIONA GANHO
-            btn1 = Button(
-            size_hint=(None,None),
-            pos_hint={"x": 0.8, "y": 0.5},
-            size=('60','60'),
-            border=(0,0,0,0),
-            background_normal="telas/imgs/mais_normal.png",
-            background_down="telas/imgs/mais_down.png"
+            btn1 = BtnImagensPrincipal(
+            y=Window.width - ((Window.width*3)/5) - (Window.width*0.14),
+            x=Window.width - (Window.width/40) - (Window.width*0.14),
+            background_normal="imgs/mais_normal.png",
+            background_down="imgs/mais_down.png"
             )
             btn1.bind(on_press=self.podeAdicionarGanho)
             self.boxBotoes.add_widget(btn1)                        
 
             #CONTAS
-            btn3 = Button(
-            pos_hint={"x": 0.64, "y": 0.35},
-            size_hint=(None,None),
-            size=('60','60'),
-            border=(0,0,0,0),
-            background_normal="telas/imgs/contas_normal.png",
-            background_down="telas/imgs/contas_down.png"
+            btn3 = BtnImagensPrincipal(
+            y=Window.width/5,
+            x=Window.width - (Window.width/5) - (Window.width*0.14),
+            background_normal="imgs/contas_normal.png",
+            background_down="imgs/contas_down.png"
             )
             btn3.bind(on_press=self.telaContas)
             self.boxBotoes.add_widget(btn3)
 
+            # print(Window.width)
+
             #ADICIONA RETIRADA
-            btn2 = Button(
-            pos_hint= {"x": 0.55, "y": 0.07},
-            size_hint=(None,None),
-            size=('60','60'),
-            border=(0,0,0,0),
-            background_normal="telas/imgs/menos_normal.png",
-            background_down="telas/imgs/menos_down.png"
+            btn2 = BtnImagensPrincipal(
+            y=Window.width/40,
+            x=(Window.width*3)/5,
+            background_normal="imgs/menos_normal.png",
+            background_down="imgs/menos_down.png"
             )
             btn2.bind(on_press=self.podeAdicionarRetirada)
             self.boxBotoes.add_widget(btn2)
 
-            #Troca o estado do botão
-            self.estadoBotao = not self.estadoBotao
+        #Troca o estado do botão
+        self.estadoBotao = not self.estadoBotao
 
     def telaContas(self,*args):
         #Muda de tela
@@ -121,11 +125,7 @@ class Principal(Screen):
         self.manager.transition.direction="left"
         self.manager.current_screen.exibirContas()
 
-        #Fecha o menu da tela principal
-        # como ele já trocou o 'estadoBotao',
-        # só basta recarregar o método
-        time.sleep(0.1)
-        self.mostrarBotoes()   
+        #O método que estava aqui será chamado pelo evento on_leave() 
 
     def atualizaSaldo(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
@@ -144,14 +144,11 @@ class Principal(Screen):
             self.manager.transition.direction="left"
             self.manager.current_screen.atualizaSaldo()
 
-            #Fecha o menu da tela principal
-            # como ele já trocou o 'estadoBotao',
-            # só basta recarregar o método
-            time.sleep(0.1)
-            self.mostrarBotoes()        
+            #O método que estava aqui será chamado pelo evento on_leave()        
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar um ganho é\nnecessário uma conta padrão."
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
     
     def podeAdicionarRetirada(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
@@ -159,21 +156,18 @@ class Principal(Screen):
             if conta[3] == 0:
                 #ERRO: Saldo da conta padrão é igual a 0
                 self.setMensagem.text = "Para adicionar uma retirada é\nnecessário saldo maior que zero."
+                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
             else:
                 #Muda de tela
                 self.manager.current="adicionaRetirada"
                 self.manager.transition.direction="left"
                 self.manager.current_screen.atualizaSaldo()
 
-                #Fecha o menu da tela principal
-                # como ele já trocou o 'estadoBotao',
-                # só basta recarregar o método
-                time.sleep(0.1)
-                self.mostrarBotoes()
-                
+                #O método que estava aqui será chamado pelo evento on_leave()               
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.setMensagem.text = "Para adicionar uma retirada é\nnecessário uma conta padrão."
+            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
     
     def mostrarMovimentacoes(self):
         #Para que a tela apareça de forma correta é necessário 
@@ -290,3 +284,17 @@ class Principal(Screen):
             #Salva o objeto ScrollView
             self.raiz = rolagem
             self.add_widget(rolagem, index=2)
+
+    def limpaMensagens(self, dt):
+        self.setMensagem.text = ""
+
+    def on_leave(self, *args):
+        #Fecha o menu da tela principal
+        # como ele já trocou o 'estadoBotao',
+        # só basta recarregar o método
+        self.mostrarBotoes()  
+
+        #Limpa as mensagens de erro
+        self.setMensagem.text = ""
+        return super().on_leave(*args)
+        
