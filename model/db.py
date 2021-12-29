@@ -22,7 +22,22 @@ You should have received a copy of the GNU General Public License
 along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-#################################BANCO DE DADOS############################
+#################################CONEXÕES############################
+import os
+#Recebe o caminho onde este arquivo está
+app_path = os.path.dirname(os.path.abspath(__file__))
+
+#Seleciona a última pasta
+ultima = os.path.basename(os.path.normpath(app_path))
+
+#Remove a última palavra (equivalente a sair de uma pasta)
+app_path = app_path.replace(f"/{ultima}", "")
+
+#Repete o processo para sair da pasta do aplicativo 
+# e salvar o aquivo de dados fora
+ultima = os.path.basename(os.path.normpath(app_path))
+app_path = app_path.replace(ultima, "")
+
 dataCon=None
 #Abre o banco de dados
 def get_db():
@@ -32,7 +47,7 @@ def get_db():
         return dataCon
     else:
         #Não tem conexão
-        db = sqlite3.connect("model/dados.db")
+        db = sqlite3.connect(os.path.join(app_path, 'dados.db'))
         #Armazena na variável global
         dataCon = db
         return db   
@@ -40,6 +55,52 @@ def get_db():
 #fecha o banco de dados 
 def close(db):
     db.close()
+
+#################################BANCO DE DADOS############################
+
+#Tenta criar o arquivo.db, mas se o arquivo já existir
+# o programa não faz nada
+try:
+    conn = sqlite3.connect(os.path.join(app_path, 'dados.db'))
+    # definindo um cursor
+    cursor = conn.cursor()
+
+    # criando as tabelas
+    cursor.execute("""
+    CREATE TABLE contas(
+        id_conta INTEGER            PRIMARY KEY AUTOINCREMENT NOT NULL UNIQUE,
+        nome     VARCHAR (50)       NOT NULL UNIQUE,
+        tipo     INTEGER            NOT NULL,
+        saldo    DECIMAL (18, 2)    NOT NULL DEFAULT (0) 
+    );
+    """)
+    
+    cursor.execute("""
+    CREATE TABLE ganhos(
+        id_ganho    INTEGER       PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+        valor       DECIMAL       NOT NULL,
+        descricao   VARCHAR (100) NOT NULL,
+        id_conta                  REFERENCES contas (id_conta) NOT NULL,
+        datahora_br DATETIME      DEFAULT (DATETIME('now', 'localtime')) NOT NULL
+    );
+    """)
+
+    cursor.execute("""
+    CREATE TABLE retiradas(
+        id_retirada INTEGER       PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,
+        valor       DECIMAL       NOT NULL,
+        descricao   VARCHAR (100) NOT NULL,
+        id_conta                  REFERENCES contas (id_conta) NOT NULL,
+        datahora_br DATETIME      DEFAULT (DATETIME('now', 'localtime')) NOT NULL
+    );
+    """)
+
+
+
+    conn.commit()
+    conn.close()
+except sqlite3.OperationalError:
+    pass
 
 #################################CONTA#####################################
 
