@@ -103,7 +103,9 @@ class AlteraContas(Screen):
         if args[0] == padrao:
             AppConfig.set_config("contaPadrao", "")
             AppConfig.set_config("idConta", "")
-        db.remove_conta_nome(args[0])
+        #Parece que tá errado, mas não tá
+        conta = db.retorna_conta_nome(args[0])
+        db.remove_conta_nome(conta[0])
         self.manager.current="principal"
         self.manager.transition.direction = "right"
         self.manager.current_screen.setMensagem.text = 'Conta excluida com sucesso!'
