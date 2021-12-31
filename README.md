@@ -14,7 +14,7 @@
 </p>
 
 <div align='center'>
-  <img src='https://img.shields.io/static/v1?label=version&message=v1.1.0&color=brightgreen&style=flat-square'> 
+  <img src='https://img.shields.io/static/v1?label=version&message=v1.1.1&color=brightgreen&style=flat-square'> 
   <img src='https://img.shields.io/static/v1?label=license&message=GPL 3.0&color=orange&style=flat-square'>
   <img src='https://img.shields.io/static/v1?label=status&message=Em andamento&color=informational&style=flat-square'>
 </div>
@@ -45,9 +45,9 @@ python main.py -m screen:phone_nexus_5,scale=.4,portrait
 
 Se desejar rodar em seu **celular**, basta ir [nas nossas tags](https://github.com/laribrito/Economize/releases) para visualizar as *releases* existentes, baixar e instalar em seu aparelho.
 
-<h2 id='galeria'>Galeria v1.1.0</h2>
+<h2 id='galeria'>Galeria v1.1.1</h2>
 
-|<p>• Tela de inicio no primeiro login</p> <img src='.imagens/inicio.jpg'   height='500'>|<p>• Tela de inicio com botões à mostra</p> <img src='.imagens/inicio03.jpg' height='500'>| <p>• Tela para gerenciar as contas<br>cadastradas</p> <img src='.imagens/contas.jpg'   height='500'> |
+|<p>• Tela de inicio no primeiro login</p> <img src='.imagens/inicio.jpg'   height='500'>|<p>• Tela de inicio com botões à mostra</p> <img src='.imagens/inicio03.jpg' height='500'>| <p>• Tela para gerenciar as contas</p> <img src='.imagens/contas.jpg'   height='500'> |
 |----------------|-------------------------------|-----------------------------|
 |<p><b>• Tela para adicionar um ganho</b></p> <img src='.imagens/ganho.jpg'    height='500'>| <p><b>• Tela para adicionar uma retirada</b></p> <img src='.imagens/retirada.jpg' height='500'> | <p><b>• Tela de inicio depois do uso</b></p> <img src='.imagens/inicio02.jpg' height='500'>|
 
