@@ -109,6 +109,7 @@ class AlteraContas(Screen):
         self.manager.current_screen.setMensagem.text = 'Conta excluida com sucesso!'
         Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
         self.manager.current_screen.atualizaSaldo()
+        self.manager.current_screen.mostrarMovimentacoes()
 
     def exibirContas(self):
 
