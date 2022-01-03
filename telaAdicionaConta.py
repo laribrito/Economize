@@ -20,6 +20,7 @@ from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
 from kivy.lang import Builder
 from kivy.clock import Clock
+from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
 
@@ -188,3 +189,20 @@ class AdicionaConta(Screen):
     def on_enter(self, *args):
         self.getNome.focus=True
         return super().on_enter(*args)
+
+    
+    #Esse trio de funções serve para a utilização correta
+    # da tecla "esc" e do botão voltar do android
+    def on_pre_enter(self, *args):
+        Window.bind(on_keyboard=self.voltar)
+        return super().on_pre_enter(*args)
+
+    def voltar(self, window, key, *args):
+        if key == 27:
+            self.manager.current="alteraContas"
+            self.manager.transition.direction="right"
+            return True
+
+    def on_pre_leave(self, *args):
+        Window.unbind(on_keyboard=self.voltar)
+        return super().on_pre_leave(*args)

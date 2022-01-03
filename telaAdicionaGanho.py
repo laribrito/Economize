@@ -19,6 +19,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 from kivy.clock import Clock
+from kivy.core.window import Window
 from kivy.properties import ObjectProperty
 
 #carrega a tela .kv correspondente
@@ -115,4 +116,21 @@ class AdicionaGanho(Screen):
     def on_enter(self, *args):
         self.getValor.focus=True
         return super().on_enter(*args)
+
+    
+    #Esse trio de funções serve para a utilização correta
+    # da tecla "esc" e do botão voltar do android
+    def on_pre_enter(self, *args):
+        Window.bind(on_keyboard=self.voltar)
+        return super().on_pre_enter(*args)
+
+    def voltar(self, window, key, *args):
+        if key == 27:
+            self.manager.current="principal"
+            self.manager.transition.direction="right"
+            return True
+
+    def on_pre_leave(self, *args):
+        Window.unbind(on_keyboard=self.voltar)
+        return super().on_pre_leave(*args)
         
