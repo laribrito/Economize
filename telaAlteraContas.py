@@ -82,6 +82,7 @@ class Linha(Label):
                 Color(.41, .58, .79, 1)
                 Rectangle(pos=self.pos, size=self.size)
 
+#CLASS KV
 class AlteraContas(Screen):
     #Listas que armazenarão objetos da tela
     raiz = []
