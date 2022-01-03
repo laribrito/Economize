@@ -96,8 +96,7 @@ class AdicionaGanho(Screen):
             #Volta para a página inicial
             self.manager.current = "principal"
             self.manager.transition.direction = "right"
-            self.manager.current_screen.setMensagem.text = "Valor adicionado com sucesso."
-            Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
+            self.manager.currente_screen.criarMensagem("Valor adicionado com sucesso")
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     

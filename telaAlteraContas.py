@@ -94,8 +94,7 @@ class AlteraContas(Screen):
         AppConfig.set_config("idConta", args[1])
         self.manager.current="principal"
         self.manager.transition.direction = "right"
-        self.manager.current_screen.setMensagem.text = 'Conta padrão alterada com sucesso!'
-        Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
+        self.manager.current_screen.criarMensagem('Conta padrão alterada com sucesso')
         self.manager.current_screen.atualizaSaldo()
         self.manager.current_screen.mostrarMovimentacoes()
 
@@ -110,8 +109,7 @@ class AlteraContas(Screen):
         db.remove_conta_nome(conta[0])
         self.manager.current="principal"
         self.manager.transition.direction = "right"
-        self.manager.current_screen.setMensagem.text = 'Conta excluida com sucesso!'
-        Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
+        self.manager.current_screen.criarMensagem('Conta excluida com sucesso')
         self.manager.current_screen.atualizaSaldo()
         self.manager.current_screen.mostrarMovimentacoes()
 

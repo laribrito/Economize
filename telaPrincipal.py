@@ -24,7 +24,7 @@ from kivy.uix.label import Label
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.clock import Clock
-# from kivy.graphics import Color, Rectangle
+from kivy.graphics import Color, RoundedRectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
 
@@ -36,6 +36,21 @@ from model import db
 
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
+
+#Classe para as mensagens de erro
+class Mensagem(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs) 
+        with self.canvas.before:
+            Color(0.70, 0.70, 0.70, 1)
+            self.rect = RoundedRectangle(pos=self.pos, size=self.size, radius=[(15,15)])
+
+        self.bind(pos=self.update_rect)
+        self.bind(size=self.update_rect)
+
+    def update_rect(self, *args):
+        self.rect.pos = self.pos
+        self.rect.size = self.size
 
 #Classe para a descrição do ganho/retirada
 class Desc(Label):
@@ -147,16 +162,14 @@ class Principal(Screen):
             #O método que estava aqui será chamado pelo evento on_leave()        
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
-            self.setMensagem.text = "Para adicionar um ganho é\nnecessário uma conta padrão."
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+            self.criarMensagem("Para adicionar um ganho é\nnecessário uma conta padrão.")
     
     def podeAdicionarRetirada(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
             conta = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
             if conta[3] == 0:
                 #ERRO: Saldo da conta padrão é igual a 0
-                self.setMensagem.text = "Para adicionar uma retirada é\nnecessário saldo maior que zero."
-                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+                self.criarMensagem("Para adicionar uma retirada é\nnecessário saldo maior que zero")
             else:
                 #Muda de tela
                 self.manager.current="adicionaRetirada"
@@ -166,8 +179,7 @@ class Principal(Screen):
                 #O método que estava aqui será chamado pelo evento on_leave()               
         else:
             #ERRO: Não tem uma conta como padrão para receber a transação
-            self.setMensagem.text = "Para adicionar uma retirada é\nnecessário uma conta padrão."
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+            self.criarMensagem("Para adicionar uma retirada é\nnecessário uma conta padrão")
     
     def mostrarMovimentacoes(self):
         #Para que a tela apareça de forma correta é necessário 
@@ -231,7 +243,9 @@ class Principal(Screen):
             rolagem.add_widget(layout)
             #Salva o objeto ScrollView
             self.raiz = rolagem
-            self.add_widget(rolagem, index=2)
+            #Esse número de index garante a posição correta, 
+            # antes do widget "setMensagem"
+            self.add_widget(rolagem, index=3)
         else:
             grid = GridLayout(cols=3, size_hint_y=None)
             for movimentacao in tudo:
@@ -284,9 +298,14 @@ class Principal(Screen):
             #Salva o objeto ScrollView
             self.raiz = rolagem
             self.add_widget(rolagem, index=2)
+    
+    def criarMensagem(self, msg):
+        label = Mensagem(text=msg)
+        self.setMensagem.add_widget(label)
+        Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
 
     def limpaMensagens(self, dt):
-        self.setMensagem.text = ""
+        self.setMensagem.clear_widgets()
 
     def on_leave(self, *args):
         #Fecha o menu da tela principal
@@ -295,6 +314,6 @@ class Principal(Screen):
         self.mostrarBotoes()  
 
         #Limpa as mensagens de erro
-        self.setMensagem.text = ""
+        self.setMensagem.clear_widgets()
         return super().on_leave(*args)
         

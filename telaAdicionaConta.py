@@ -156,8 +156,7 @@ class AdicionaConta(Screen):
             #muda para a tela inicial
             self.manager.current="principal"
             self.manager.transition.direction = "right"
-            self.manager.current_screen.setMensagem.text = 'Conta adicionada com sucesso!'
-            Clock.schedule_once(self.manager.current_screen.limpaMensagens, AppConfig.tempoLimpar)
+            self.manager.current_screen.criarMensagem('Conta adicionada com sucesso')
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     

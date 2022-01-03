@@ -58,8 +58,15 @@
             BoxLayout:
                 Label:
                     text: " "
-            
-            
+
+    #Mensagem
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'top'
+        padding: root.width/30
+        id: setMensagem
+
+    #Botões   
     FloatLayout:
         id: boxBotoes
         size_hint_y: 0.35
@@ -75,3 +82,4 @@
             border: (0,0,0,0)
             on_press:
                 root.mostrarBotoes()
+    
