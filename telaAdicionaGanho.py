@@ -96,7 +96,7 @@ class AdicionaGanho(Screen):
             #Volta para a página inicial
             self.manager.current = "principal"
             self.manager.transition.direction = "right"
-            self.manager.currente_screen.criarMensagem("Valor adicionado com sucesso")
+            self.manager.current_screen.criarMensagem("Valor adicionado com sucesso")
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     
