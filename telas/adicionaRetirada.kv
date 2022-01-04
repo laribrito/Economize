@@ -25,106 +25,125 @@
 
     BoxLayout:
         size_hint_y: 1
-        spacing: 20
+        #Esse spancing é do mesmo tamanho 
+        # que a altura da sombra
+        spacing: root.width/100
+        #Cabeçalho
         BoxLayout:
-            padding: 40
-            size_hint_y: 0.3
-            canvas.before:
+            size_hint_y: 0.15
+            spacing: 0
+            padding: 0
+            orientation: "horizontal"
+            #Cor
+            canvas:
                 Color:
                     rgba: 0.99,0.81,0.81,1
-                Rectangle:
+                RoundedRectangle:
                     pos: self.pos
                     size: self.size
-            Label:
-                text:'\n\nSaída'
-        BoxLayout:
-            size_hint_y: 0.9
-            padding: 30, 0
-            Label:
-                haling: "left"
-                text_size: self.width, None
-                text:'Valor: *'
-                size_hint_y: 1
-            InputRetirada:
-                id: getValor
-            Label:
-                haling: "left"
-                text_size: self.width, None
-                text: "Descrição: *"
-                size_hint_y: 1
-            LimitInputRetirada:
-                id: getDescricao
-                hint_text: "Onde você gastou esse dinheiro?"
-            Label:
-                id: setMensagem
-                text:" "
-                size_hint_y: 1
-        GridLayout:
-            size_hint_y: 0.10
-            cols: 3
-            Label:
-                size_hint_x: 0.2
-                size_hint_y: None
-                text: " "
-                height: self.texture_size[1]                
-            BtnAdicionarRetirada:
-                background_color: "#C24040"
-                on_press:
-                    root.adicionaRetirada(getValor.text, getDescricao.text)
-            Label:
-                size_hint_x: 0.2
-                size_hint_y: None
-                height: self.texture_size[1]
-        GridLayout:
-            size_hint_y: 0.20
-            cols: 3
-            Label:
-                size_hint_x: 0.3
-                size_hint_y: None
-                height: self.texture_size[1]
-            BtnCancelarRetirada:
-                on_press:
-                    root.manager.current="principal"
-                    root.manager.transition.direction="right"
-                    #left para entrar na página
-                    #right para sair
-            Label:
-                size_hint_x: 0.3
-                size_hint_y: None
-                height: self.texture_size[1]
-        
-            #Por algum motivo isso diminue o tamanho do 
-            #botão de cancelar e eu curti
-            Label:
-                text: " "
-                height: self.texture_size[1] 
-            Label:
-                text: " "
-                height: self.texture_size[1] 
-            Label:
-                text: " "
-                height: self.texture_size[1]
+                    radius: [(0, 0), (0, 0), (root.width/20, root.width/20), (root.width/20, root.width/20)]
+            #Sombra
+            canvas.before:
+                Color:
+                    rgba: 0.94,0.94,0.94,1
+                RoundedRectangle:
+                    #A subtração representa a altura da sombra
+                    pos: self.pos[0], self.pos[1]-root.width/100
+                    size: self.size
+                    radius: [(0, 0), (0, 0), (root.width/20, root.width/20), (root.width/20, root.width/20)]
+            #Botão de voltar
+            AnchorLayout:
+                anchor_y: "center"
+                anchor_x: 'left'
+                padding: root.width/20
+                Button: 
+                    background_normal: "imgs/btnVoltar.png"
+                    background_down: "imgs/btnVoltar.png"
+                    border: (0,0,0,0)
+                    size: '24dp','24dp'
+                    size_hint: (None, None)
+                    on_press:
+                        root.manager.current="principal"
+                        root.manager.transition.direction="right"
+                        #left para entrar na página
+                        #right para sair
+            #Título
+            AnchorLayout:
+                anchor_y: "center"
+                anchor_x: 'center'
+                Label:
+                    text:'Saída'
 
-    #Saldo que aparece no canto superior direito
-    AnchorLayout:
-        anchor_x: 'right'
-        anchor_y: 'top'
-        padding: 20
+            #Saldo
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'center'
+                padding: root.width/20
+                BoxLayout:
+                    canvas.before:
+                        Color:
+                            rgba: 0.99,0.81,0.81,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    size_hint: None, None
+                    Label:
+                        id: setSaldo
+                        text: " "
+                        font_size: "16sp"
+                        height: self.texture_size[1]
+                    Label:
+                        id: setConta
+                        text: " "
+                        font_size: "14sp"
+                        height: self.texture_size[1]
+        #Formulário
         BoxLayout:
-            canvas.before:
-                Color:
-                    rgba: 0.99,0.81,0.81,1
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            size_hint: None, None
+            #Distância das laterais
+            padding: 50, 0
+            AnchorLayout:
+                anchor_y: 'top'
+                anchor_x: 'center'
+                BoxLayout:
+                    size_hint_y: None
+                    #CampoValor
+                    Espacamento:
+                    Label:
+                        height: self.texture_size[1]+dp(20)
+                        haling: "left"
+                        text_size: self.width, None
+                        text:'Valor:'
+                    InputRetirada:
+                        id: getValor
+                        size_hint_x: 0.6
+                    Espacamento:
+
+                    #CampoDescrição
+                    Espacamento:
+                    Label:
+                        height: self.texture_size[1]+dp(20)
+                        haling: "left"
+                        text_size: self.width, None
+                        text: "Descrição:"
+                    LimitInputRetirada:
+                        id: getDescricao
+                        hint_text: "Onde você gastou esse dinheiro?"
+                    Espacamento:
+                    #Mensagem de erro
+                    Label:
+                        id: setMensagem
+                        text:" "
+        #Botão adicionar
+        BoxLayout:
+            size_hint_y: 0.3
+            orientation: "horizontal"
             Label:
-                id: setSaldo
-                text: " "
-                font_size: "16sp"
-                height: self.texture_size[1]
+            AnchorLayout:
+                anchor_x: 'center'
+                anchor_y: 'center'
+                BtnAdicionarRetirada:
+                    size_hint_x: 1
+                    on_press:
+                        root.adicionaRetirada(getValor.text, getDescricao.text)
             Label:
-                id: setConta
-                text: " "
-                font_size: "14sp"
-                height: self.texture_size[1]
+    
