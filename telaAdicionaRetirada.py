@@ -20,7 +20,7 @@ from kivy.uix.textinput import TextInput
 from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.core.window import Window
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, NumericProperty
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/adicionaRetirada.kv")
@@ -57,6 +57,9 @@ class AdicionaRetirada(Screen):
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
 
+    #Contador para a máscara
+    Count = NumericProperty(0)
+
     #Método para o valor que fica no canto superior esquerdo
     def atualizaSaldo(self, *args):
         dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
@@ -64,12 +67,46 @@ class AdicionaRetirada(Screen):
         self.setSaldo.text = f"R$ {saldo:.2f}"
         self.setConta.text = AppConfig.get_config("contaPadrao")
 
+    #Método para máscara no campo de valor
+    def adicionarMascara(self, centavos):
+        #Incrementa contador
+        self.Count+=1    
+
+        if self.Count%2!=0:
+            #Remove os caracteres especiais
+            valor = centavos[3:]
+            #Retira as casas decimais
+            valor = valor.split(".")
+            valor = f"{valor[0]}{valor[1]}"
+            try:
+                #Transforma em número inteiro
+                valor = int(valor)
+                #Seleciona a parte inteira
+                inteiros = valor//100
+                #Seleciona a parte decimal
+                cent = valor/100
+                cent=f"{cent:.2f}"
+                #Pega os dois últimos caracteres da string
+                cent=cent[-2::]
+                #Seta o novo valor no campo
+                self.getValor.text=f"R$ {inteiros}.{cent}"
+            except ValueError:
+                #ERRO: não foi digitado um número
+                self.setMensagem.text="Somente números nesse campo"
+                #Remove a letra digitada
+                correcao=centavos[:-1]
+                self.getValor.text = correcao
+        
+
     #Método para adicionar uma retirada
     def adicionaRetirada(self, valor, descricao):
         valido = True
         
         #ERRO: 'valor' não é um número
         try:
+            #Retira a string da máscara
+            valor = valor[3:]
+            #Tenta transformar a string em número
             valor = float(valor)
         except ValueError:
             self.setMensagem.text = "Valor inválido. Digite somente números."
@@ -88,8 +125,8 @@ class AdicionaRetirada(Screen):
             pass
 
         #ERRO: algum campo vazio
-        if valor == "" or descricao == "":
-            self.setMensagem.text = "Preencha todos os campos."
+        if valor == 0 or descricao == "":
+            self.setMensagem.text = "Preencha todos os campos"
             valido = False
             Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
         
@@ -100,7 +137,7 @@ class AdicionaRetirada(Screen):
             
             #Limpa a tela do formulário
             self.getDescricao.text = ""
-            self.getValor.text = ""
+            self.getValor.text = "R$ 0.00"
 
             #Volta para a página inicial
             self.manager.current = "principal"
@@ -116,13 +153,20 @@ class AdicionaRetirada(Screen):
     #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):
         #Limpa o formulário
-        self.getValor.text=""
+        self.getValor.text="R$ 0.00"
         self.getDescricao.text=""
         return super().on_leave(*args)
 
     def on_enter(self, *args):
         self.getValor.focus=True
+        #POR UM bug QUE APARECEU 
+        #Joga o cursor para o final do textInput
+        #  contra o que o do_backspace faz
+        Clock.schedule_interval(self.eventoCursorValor, 0.01)
         return super().on_enter(*args)
+    
+    def eventoCursorValor(self, *args):
+        self.getValor.do_cursor_movement('cursor_end')
     
     #Esse trio de funções serve para a utilização correta
     # da tecla "esc" e do botão voltar do android
