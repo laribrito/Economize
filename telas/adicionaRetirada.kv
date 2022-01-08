@@ -22,6 +22,7 @@
     getValor: getValor
     setConta: setConta
     setSaldo: setSaldo
+    labelDesc: labelDesc
 
     BoxLayout:
         size_hint_y: 1
@@ -131,6 +132,18 @@
                     LimitInputRetirada:
                         id: getDescricao
                         hint_text: "Onde você gastou esse dinheiro?"
+                        on_text:
+                            root.atualizaNumDescricao(getDescricao.text)
+                    Label:
+                        id: labelDesc
+                        text: '0/35'
+                        height: self.texture_size[1]
+                        haling: "center"
+                        text_size: self.width, None
+                        color: (.6,.6,.6,1)
+                        font_size: 14
+                        halign: "right"
+                        padding: root.width/70,0
                     Espacamento:
                     #Mensagem de erro
                     Label:

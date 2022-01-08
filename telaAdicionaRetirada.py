@@ -56,9 +56,15 @@ class AdicionaRetirada(Screen):
     getDescricao = ObjectProperty(None)
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
+    labelDesc = ObjectProperty(None)
 
     #Contador para a máscara
     Count = NumericProperty(0)
+
+    #Método para atualizar o label abaixo do campo descrição
+    def atualizaNumDescricao(self, texto):
+        tamanho = len(texto)
+        self.labelDesc.text=f"{tamanho}/35"
 
     #Método para o valor que fica no canto superior esquerdo
     def atualizaSaldo(self, *args):
