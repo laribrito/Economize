@@ -17,12 +17,13 @@
 <AdicionaGanho>:
 
     #Elementos que serão trabalhados pelo .py
-    setMensagem: setMensagem
     getDescricao: getDescricao
     getValor: getValor
     setSaldo: setSaldo
     setConta: setConta
     labelDesc: labelDesc
+    erroValor: erroValor
+    erroDesc: erroDesc
 
     BoxLayout:
         size_hint_y: 1
@@ -120,6 +121,8 @@
                         text: "R$ 0.00"
                         on_text:
                             root.adicionarMascara(getValor.text)
+                    ErroCampo:
+                        id: erroValor
                     Espacamento:
 
                     #CampoDescrição
@@ -134,21 +137,23 @@
                         hint_text: "De onde veio esse ganho?"
                         on_text:
                             root.atualizaNumDescricao(getDescricao.text)
-                    Label:
-                        id: labelDesc
-                        text: '0/35'
-                        height: self.texture_size[1]
-                        haling: "center"
-                        text_size: self.width, None
-                        color: (.6,.6,.6,1)
-                        font_size: 14
-                        halign: "right"
-                        padding: root.width/70,0
+                    BoxLayout:
+                        orientation: "horizontal"
+                        size_hint_y: None
+                        ErroCampo:
+                            id: erroDesc
+                        Label:
+                            id: labelDesc
+                            text: '0/35'
+                            size_hint_x: 0.3
+                            height: self.texture_size[1]
+                            haling: "right"
+                            text_size: self.width, None
+                            color: (.6,.6,.6,1)
+                            font_size: 14
+                            halign: "right"
+                            padding: root.width/70,0
                     Espacamento:
-                    #Mensagem de erro
-                    Label:
-                        id: setMensagem
-                        text:" "
         #Botão adicionar
         BoxLayout:
             size_hint_y: 0.3
@@ -158,41 +163,8 @@
                 anchor_x: 'center'
                 anchor_y: 'center'
                 BtnAdicionarGanho:
-                    background_color: "#3EB74A"
                     size_hint_x: 1
                     on_press:
                         root.adicionaGanho(getValor.text, getDescricao.text)
             Label:
-                
-        # #Botão voltar
-        # GridLayout:
-        #     size_hint_y: 0.20
-        #     cols: 3
-        #     Label:
-        #         size_hint_x: 0.3
-        #         size_hint_y: None
-        #         height: self.texture_size[1]
-        #     BtnCancelarGanho:
-        #         on_press:
-        #             root.manager.current="principal"
-        #             root.manager.transition.direction="right"
-        #             #left para entrar na página
-        #             #right para sair
-        #     Label:
-        #         size_hint_x: 0.3
-        #         size_hint_y: None
-        #         height: self.texture_size[1]
-
-        #     #Por algum motivo isso diminue o tamanho do 
-        #     #botão de cancelar e eu curti
-        #     Label:
-        #         text: " "
-        #         height: self.texture_size[1] 
-        #     Label:
-        #         text: " "
-        #         height: self.texture_size[1] 
-        #     Label:
-        #         text: " "
-        #         height: self.texture_size[1]
-
-   
+             

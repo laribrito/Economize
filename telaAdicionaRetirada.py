@@ -17,6 +17,7 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
+from functools import partial
 from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -51,12 +52,13 @@ class LimitInputRetirada(TextInput):
 class AdicionaRetirada(Screen):
     
     #elementos da interface
-    setMensagem = ObjectProperty(None)
     getValor = ObjectProperty(None)
     getDescricao = ObjectProperty(None)
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
     labelDesc = ObjectProperty(None)
+    erroValor = ObjectProperty(None)
+    erroDesc = ObjectProperty(None)
 
     #Contador para a máscara
     Count = NumericProperty(0)
@@ -96,9 +98,12 @@ class AdicionaRetirada(Screen):
                 cent=cent[-2::]
                 #Seta o novo valor no campo
                 self.getValor.text=f"R$ {inteiros}.{cent}"
+                #Limpa a mensagem de erro
+                self.erroValor.text=" "
             except ValueError:
                 #ERRO: não foi digitado um número
-                self.setMensagem.text="Somente números nesse campo"
+                self.erroValor.text="Somente números nesse campo"
+                Clock.schedule_once(partial(self.limpaMensagens, 0), AppConfig.tempoLimpar)
                 #Remove a letra digitada
                 correcao=centavos[:-1]
                 self.getValor.text = correcao
@@ -115,26 +120,30 @@ class AdicionaRetirada(Screen):
             #Tenta transformar a string em número
             valor = float(valor)
         except ValueError:
-            self.setMensagem.text = "Valor inválido. Digite somente números."
+            self.erroValor.text="Somente números nesse campo"
             valido = False
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+            Clock.schedule_once(partial(self.limpaMensagens, 0), AppConfig.tempoLimpar)
 
         #ERRO: valor de retirada é maior que o saldo da conta
         conta = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
         try:
             if valor > conta[3]:
-                self.setMensagem.text = "Valor inválido. Saldo insuficiente."
+                self.erroValor.text = "Saldo insuficiente"
                 valido=False
-                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+                Clock.schedule_once(partial(self.limpaMensagens,0), AppConfig.tempoLimpar)
 
         except TypeError:
             pass
 
         #ERRO: algum campo vazio
         if valor == 0 or descricao == "":
-            self.setMensagem.text = "Preencha todos os campos"
+            if valor == 0:
+                self.erroValor.text="Preencha antes de continuar"
+                Clock.schedule_once(partial(self.limpaMensagens, 0), AppConfig.tempoLimpar)
+            if descricao=="":
+                self.erroDesc.text="Preencha antes de continuar"
+                Clock.schedule_once(partial(self.limpaMensagens, 1), AppConfig.tempoLimpar)
             valido = False
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
         
         #SUCESSO
         if valido:
@@ -152,9 +161,11 @@ class AdicionaRetirada(Screen):
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     
-    def limpaMensagens(self, dt):
-        self.setMensagem.text = ""
-
+    def limpaMensagens(self, tipo, dt):
+        if tipo==0:
+            self.erroValor.text = " "
+        else:
+            self.erroDesc.text = " "
 
     #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):

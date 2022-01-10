@@ -18,6 +18,7 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
 from kivy.uix.dropdown import DropDown
+from functools import partial
 from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.core.window import Window
@@ -57,11 +58,11 @@ class BtnDropDown(Button):
 class AdicionaConta(Screen):
 
     #elementos da interface
-    setMensagem = ObjectProperty(None)
     getNome = ObjectProperty(None)
     getPadrao = ObjectProperty(None)
-    # getTipo = ObjectProperty(None)
     layoutTipo = ObjectProperty(None)
+    erroNome = ObjectProperty(None)
+    erroTipo = ObjectProperty(None)
 
     #Tipos de conta que o programa trabalha
     tiposDisponiveis= AppConfig.tipos
@@ -76,7 +77,6 @@ class AdicionaConta(Screen):
         #Menu dropdown
         
         #Botão principal
-        
         self.layoutTipo.add_widget(self.btn_principal)
         
         #Itens dropdown
@@ -119,30 +119,33 @@ class AdicionaConta(Screen):
         #ERRO: já existe uma conta com o nome informado
         conta = db.retorna_conta_nome(nome)
         if conta != None:
-            self.setMensagem.text = "Essa conta já existe. Insira um outro nome."
+            self.erroNome.text = "Essa conta já existe. Insira um outro nome"
             valido = False
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+            Clock.schedule_once(partial(self.limpaMensagens,0), AppConfig.tempoLimpar)
 
         #ERRO: 'tipo' não é um número
         try:
             tipo = int(self.tipoEscolhido)
             #ERRO: valor de 'tipo' não é um valor disponível
             if tipo > len(self.tiposDisponiveis) or tipo < 1:
-                self.setMensagem.text = "Tipo de conta inválido. Valor não disponível."
+                self.erroTipo.text = "Tipo de conta inválido. Valor não disponível"
                 valido = False
-                Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+                Clock.schedule_once(partial(self.limpaMensagens,1), AppConfig.tempoLimpar)
                 
         except ValueError:
-            self.setMensagem.text = "Tipo de conta inválido. Digite um número."
+            self.erroTipo.text = "Tipo de conta inválido. Digite um número"
             valido = False
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+            Clock.schedule_once(partial(self.limpaMensagens,1), AppConfig.tempoLimpar)
         
         #ERRO: algum campo vazio
         if nome == "" or self.tipoEscolhido =="":
-            
-            self.setMensagem.text = "Preencha todos os campos."
             valido = False
-            Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+            if nome == "":
+                self.erroNome.text="Preencha antes de continuar"
+                Clock.schedule_once(partial(self.limpaMensagens, 0), AppConfig.tempoLimpar)
+            if self.tipoEscolhido=="":
+                self.erroTipo.text="Preencha antes de continuar"
+                Clock.schedule_once(partial(self.limpaMensagens, 1), AppConfig.tempoLimpar)
 
         #SUCESSO
         if valido:
@@ -173,8 +176,12 @@ class AdicionaConta(Screen):
     def trocaDropdownNormal(self, *args):
         self.btn_principal.background_normal="imgs/bordaBotao.png"
 
-    def limpaMensagens(self, dt):
-        self.setMensagem.text = ""
+    def limpaMensagens(self, tipo, dt):
+        if tipo==0:
+            self.erroNome.text = " "
+        else:
+            self.erroTipo.text = " "
+
 
     #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):
