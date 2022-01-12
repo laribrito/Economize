@@ -19,9 +19,11 @@
     #Elementos que serão trabalhados pelo .py
     getNome: getNome
     getPadrao: getPadrao
-    layoutTipo: layoutTipo
     erroNome: erroNome
     erroTipo: erroTipo
+    tipoI: tipoI
+    tipoII: tipoII
+    tipoIII:tipoIII
 
     BoxLayout:
         size_hint_y: 1
@@ -93,6 +95,7 @@
                         text:'Nome:'
                     InputConta:
                         id: getNome
+                        size_hint_x: 0.6
                     ErroCampo:
                         id: erroNome
                     Espacamento:
@@ -104,10 +107,34 @@
                         text_size: self.width, None
                         text: "Tipo:"
                         height: self.texture_size[1]+dp(20)
-                    # Box do menu dropdown
+                    #Os tipos
                     BoxLayout:
-                        size_hint_y: None
                         id: layoutTipo
+                        orientation: "horizontal"
+                        size_hint: 1, None
+                        spacing: root.width/30
+                        #1
+                        ToggleButton:
+                            id: tipoI
+                            valor: "1"
+                            text: "Dinheiro"
+                            on_press:
+                                root.escolheuTipo(tipoI, tipoII, tipoIII)
+                        #2
+                        ToggleButton:
+                            id: tipoII
+                            valor: "2"
+                            text: "Saldo"
+                            on_press:
+                                root.escolheuTipo(tipoI, tipoII, tipoIII)
+                        #3
+                        ToggleButton:
+                            id: tipoIII
+                            valor: "3"
+                            text: "Investimento"
+                            on_press:
+                                root.escolheuTipo(tipoI, tipoII, tipoIII)
+                                                    
                     ErroCampo:
                         id: erroTipo
                     Espacamento:

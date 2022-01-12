@@ -17,7 +17,6 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 
 from kivy.uix.screenmanager import Screen
 from kivy.uix.button import Button
-from kivy.uix.dropdown import DropDown
 from functools import partial
 from kivy.lang import Builder
 from kivy.clock import Clock
@@ -34,26 +33,6 @@ from model import db
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
 
-#Classe para o botão principal do 
-# menu dropdown
-class BtnPrincipal(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.font_size= 20
-        self.markup=True
-        self.background_normal="imgs/bordaBotao.png"
-        self.background_down="imgs/bordaBotaoAtivoAzul.png"
-        self.color="#272727"
-
-#Classe para os outros botões dropdown
-class BtnDropDown(Button):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.font_size= 20
-        self.background_normal="imgs/borda.png"
-        self.background_color="#FFFFFF"
-        self.color="#000000"
-
 #CLASSE KV
 class AdicionaConta(Screen):
 
@@ -63,54 +42,38 @@ class AdicionaConta(Screen):
     layoutTipo = ObjectProperty(None)
     erroNome = ObjectProperty(None)
     erroTipo = ObjectProperty(None)
+    tipoI = ObjectProperty(None)
+    tipoII = ObjectProperty(None)
+    tipoIII = ObjectProperty(None)
+    #Conjunto de botões de tipo de conta
+    # que será montado no on_enter()
+    # para poder limpa-los no on_leave()
+    tiposInterface = []
 
     #Tipos de conta que o programa trabalha
     tiposDisponiveis= AppConfig.tipos
 
     #Tipo selecionado
     tipoEscolhido = ""
-
-    btn_principal = BtnPrincipal(text="Escolha o tipo")
-
-    def __init__(self, **kw):
-        super().__init__(**kw)
-        #Menu dropdown
-        
-        #Botão principal
-        self.layoutTipo.add_widget(self.btn_principal)
-        
-        #Itens dropdown
-        dropdown = DropDown()
-        for index in range(len(self.tiposDisponiveis)):
-            #Cada botão dropdown tem um valor escondido em seu texto. Esse valor 
-            # será o número cadastrado no banco de dados. O número corresponde
-            # ao tipo da conta
-            btn = BtnDropDown(text = f'[color=#ffffff00]{index+1}[/color]{self.tiposDisponiveis[index]} ', size_hint_y = None, height = 44, 
-            on_release = lambda btn: self.escolheuTipo(btn),
-            markup=True)
-
-            # binding the button to show the text when selected
-            btn.bind(on_release = lambda btn: dropdown.select(btn.text))
-
-            # then add the button inside the dropdown
-            dropdown.add_widget(btn)
-        
-        self.btn_principal.bind(on_release = dropdown.open)
-
-        # one last thing, listen for the selection in the
-        # dropdown list and assign the data to the button text.
-        dropdown.bind(on_select = lambda instance, x: setattr(self.btn_principal, 'text', x))
-
-        #Quando o botão principal for pressionado, ele fica azul
-        self.btn_principal.bind(on_press = self.trocaDropdownAzul)
-        #Quando o dropdown fechar, o botão principal volta ao normal
-        dropdown.bind(on_dismiss=self.trocaDropdownNormal)
-
-    #Método para receber o valor escondido no texto do botão 
-    # dropdown para, na hora do cadastro da conta, 
-    # enviar-lo ao banco de dados
-    def escolheuTipo(self, instance):
-        self.tipoEscolhido=instance.text[17]
+    
+    #Método para mudar o tipo escolhido
+    def escolheuTipo(self, *tipos):
+        escolheu = False
+        #Percorre a lista de botões
+        for i in tipos:
+            if i.state == "down":
+                #Se algum botão estiver selecionado, a cor da sua letra é alterada 
+                # para branco, o valor é armazenado na classe e 'escolheu' sinaliza
+                # que o usuário escolheu algum valor
+                i.color=(1,1,1,1)
+                escolheu = True
+                self.tipoEscolhido=i.valor
+            else:
+                #Todo botão que não estiver selecionado deve manter a fonte preta
+                i.color=(0,0,0,1)
+        #Se não houver botão selecionado, então um valor vazio deve ser sobrescrito
+        if not escolheu:
+            self.tipoEscolhido=""
     
     #Método para cadastrar uma conta
     def cadastraConta(self, nome, padrao):
@@ -170,30 +133,31 @@ class AdicionaConta(Screen):
         novoValor = not antigoValor 
         self.getPadrao.active = novoValor
 
-    def trocaDropdownAzul(self, *args):
-        self.btn_principal.background_normal="imgs/bordaBotaoAtivoAzul.png"
-
-    def trocaDropdownNormal(self, *args):
-        self.btn_principal.background_normal="imgs/bordaBotao.png"
-
     def limpaMensagens(self, tipo, dt):
         if tipo==0:
             self.erroNome.text = " "
         else:
             self.erroTipo.text = " "
 
-
     #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):
         #Limpa o formulário
         self.getNome.text=""
-        self.btn_principal.text="Escolha o tipo"
         self.tipoEscolhido=""
         self.getPadrao.active=False
+        tipos = self.tiposInterface
+        for i in tipos:
+            i.state="normal"
+            i.color=(0,0,0,1)
+        self.tiposInterface.clear()
         return super().on_leave(*args)
         
     def on_enter(self, *args):
         self.getNome.focus=True
+        #Monta a lista com os botões de tipo
+        self.tiposInterface.append(self.tipoI)
+        self.tiposInterface.append(self.tipoII)
+        self.tiposInterface.append(self.tipoIII)
         return super().on_enter(*args)
 
     
