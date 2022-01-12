@@ -15,49 +15,75 @@
 
 #:kivy 2.0.0
 <AlteraContas>:
-    #Essa tela receberá um ScrollView pelo arquivo .py
-    FloatLayout:
-        canvas.before:
-            Color:
-                rgba: 0.98, 0.98, 0.98, 1
-            Rectangle:
-                pos: self.pos
-                size: self.size
-        Label:
-            canvas.before:
-                Color: 
+    BoxLayout:
+        size_hint_y: 1
+        #Esse spancing é do mesmo tamanho 
+        # que a altura da sombra
+        spacing: root.width/100
+        #Cabeçalho
+        BoxLayout:
+            size_hint_y: 0.15
+            spacing: 0
+            padding: 0
+            orientation: "horizontal"
+            #Cor
+            canvas:
+                Color:
                     rgba: 0.81,0.84,0.99,1
-                Rectangle:
+                RoundedRectangle:
                     pos: self.pos
                     size: self.size
-            text: "\nSuas contas"
-            pos_hint: {'y': .85}
-            size_hint: 1, .2
-    
-    GridLayout:
-        cols: 2
-        padding: 20,0
-        size_hint_y: 0.15
-        spacing: 20
-        FloatLayout:
+                    radius: [(0, 0), (0, 0), (root.width/20, root.width/20), (root.width/20, root.width/20)]
+            #Sombra
+            canvas.before:
+                Color:
+                    rgba: 0.94,0.94,0.94,1
+                RoundedRectangle:
+                    #A subtração representa a altura da sombra
+                    pos: self.pos[0], self.pos[1]-root.width/100
+                    size: self.size
+                    radius: [(0, 0), (0, 0), (root.width/20, root.width/20), (root.width/20, root.width/20)]
+            #Botão de voltar
+            AnchorLayout:
+                anchor_y: "center"
+                anchor_x: 'left'
+                padding: root.width/20
+                Button: 
+                    background_normal: "imgs/btnVoltar.png"
+                    background_down: "imgs/btnVoltar.png"
+                    border: (0,0,0,0)
+                    size: '24dp','24dp'
+                    size_hint: (None, None)
+                    on_press:
+                        root.manager.current="principal"
+                        root.manager.transition.direction="right"
+                        #left para entrar na página
+                        #right para sair
+            #Título
+            AnchorLayout:
+                anchor_y: "center"
+                anchor_x: 'center'
+                Label:
+                    text:'Minhas contas'
+            #Espaço vazio
+            Label:
+            
+        #Espaço vazio para as contas aparecerem
+        BoxLayout:
+
+        #Botão para adicionar conta
+        # ~copiado da tela principal~
+        AnchorLayout:
+            size_hint_y: 0.15
+            anchor_x: 'right'
+            anchor_y: 'bottom'
+            padding: root.width/30
             Button:
-                size_hint_x: 0.7
-                pos_hint: {'center_y': .5, "x": 0.15}
-                text:'Voltar'
-                background_normal: "imgs/btnAzul02.png"
-                background_down: "imgs/btnAzul02.png"
-                on_press:
-                    root.manager.current="principal"
-                    root.manager.transition.direction="right"
-                    #left para entrar na página
-                    #right para sair
-        FloatLayout:
-            Button:
-                text:'Nova Conta'
-                pos_hint: {'center_y': .5, "right": 0.94}
-                height: self.texture_size[1] + dp(30)
-                background_normal: "imgs/btnAzul.png"
-                background_down: "imgs/btnAzul.png"
+                background_normal: "imgs/toggleButton_normal.png"
+                background_down: "imgs/toggleButton_down.png"
+                size: root.width*0.16,root.width*0.16
+                size_hint:(None,None)
+                border: (0,0,0,0)
                 on_press:
                     root.manager.current="adicionaConta"
                     root.manager.transition.direction="left"

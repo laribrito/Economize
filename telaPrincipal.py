@@ -27,6 +27,7 @@ from kivy.clock import Clock
 from kivy.graphics import Color, RoundedRectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
+from telaAlteraContas import NomeC
 
 #carrega a tela .kv correspondente
 Builder.load_file("telas/principal.kv")
@@ -203,7 +204,7 @@ class Principal(Screen):
             pass
 
         #ScrollView
-        rolagem = ScrollView(pos_hint={"top": 0.68}, size_hint_y=0.65)
+        rolagem = ScrollView(pos_hint={"top": 0.70}, size_hint_y=0.66)
 
         #BoxLayout
         layout = BoxLayout(size_hint_y=None, padding=(20,0), spacing=20)

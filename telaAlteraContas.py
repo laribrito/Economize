@@ -25,7 +25,7 @@ from functools import partial
 from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.core.window import Window
-from kivy.graphics import Color, Rectangle
+from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
 
@@ -49,7 +49,10 @@ class NomeC(Label):
             self.size_hint_y= None
             with self.canvas.before:
                 Color(.94, .94, .94, 1)
-                Rectangle(pos=self.pos, size=self.size)
+                RoundedRectangle(pos=self.pos, 
+                                size=self.size, 
+                                radius= [(20, 20), (20,20), (1,1), (1,1)]
+                )
 
 #Classe para os outros labels
 #   SALDO e TIPO DA CONTA
@@ -136,7 +139,7 @@ class AlteraContas(Screen):
             pass
 
         #ScrollView
-        rolagem = ScrollView(pos_hint={"top": 0.8}, size_hint_y=0.65)
+        rolagem = ScrollView(pos_hint={"top": 0.85}, size_hint_y=0.71)
 
         #BoxLayout
         #Ele é necessário por causa da mensagem final e 

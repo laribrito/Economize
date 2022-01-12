@@ -24,40 +24,75 @@
 
     BoxLayout:
         size_hint_y: 1
+        #Esse spancing é do mesmo tamanho 
+        # que a altura da sombra
+        spacing: root.width/100
+        #Cabeçalho
         BoxLayout:
-            padding: 40
-            size_hint_y: 0.3
-            canvas.before:
+            size_hint_y: 0.22
+            spacing: 0
+            padding: 0
+            orientation: "horizontal"
+            #Cor
+            canvas:
                 Color:
                     rgba: 0.81,0.84,0.99,1
-                Rectangle:
+                RoundedRectangle:
                     pos: self.pos
                     size: self.size
+                    radius: [(0, 0), (0, 0), (root.width/20, root.width/20), (root.width/20, root.width/20)]
+            #Sombra
+            canvas.before:
+                Color:
+                    rgba: 0.94,0.94,0.94,1
+                RoundedRectangle:
+                    #A subtração representa a altura da sombra
+                    pos: self.pos[0], self.pos[1]-root.width/100
+                    size: self.size
+                    radius: [(0, 0), (0, 0), (root.width/20, root.width/20), (root.width/20, root.width/20)]
+            #Espaço vazio
             Label:
-                id: setSaldo
-                text:'Olá!'
-                height: self.texture_size[1]
-                font_size: "36sp"
+                
+            #Título
+            AnchorLayout:
+                anchor_y: "center"
+                anchor_x: 'center'
+                BoxLayout:
+                    #Essa cor é necessária
+                    canvas:
+                        Color:
+                            rgba: 0.81,0.84,0.99,1
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    Label:
+                        id: setSaldo
+                        text:'Olá!'
+                        height: self.texture_size[1]
+                        font_size: "30sp"
+                    Label:
+                        id: setConta
+                        height: self.texture_size[1]
+                        font_size: "18sp"
+                    Espacamento:
+            #Espaço vazio
             Label:
-                id: setConta
-                height: self.texture_size[1]
-                font_size: "18sp"
-            Label:
-                font_size: "14sp"
-                id: setMensagem
-                height: self.texture_size[1]
-                #text: "eu sou uma mensagem de sucesso ou de erro"
+        #Corpo
         BoxLayout:
-            size_hint_y: 0.9
-            padding: 30, 0
-            Label: 
-                text: "Lançamentos"
-                haling: "left"
-                text_size: self.width, None
-                font_size: "20sp"
-            BoxLayout:
-                Label:
-                    text: " "
+            #Espaço laterais
+            padding: (root.width/20, 0)
+            AnchorLayout:
+                anchor_y: 'top'
+                anchor_x: 'center'
+                BoxLayout:
+                    size_hint_y: None
+                    Espacamento:
+                        height: self.texture_size[1]/2
+                    #Título 02
+                    NomeC: 
+                        text: "Lançamentos"   
+                    Espacamento:
+                        height: self.texture_size[1]/2      
 
     #Mensagem
     AnchorLayout:
