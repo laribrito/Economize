@@ -57,18 +57,19 @@ class Mensagem(Label):
 class Desc(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.text_size=(Window.width*2)/4, None
-        # self.max_lines = 2
-    #     with self.canvas.before:
-    #         Color(0.1,0.4,1,1)
-    #         self.rect = Rectangle(pos=self.pos, size=self.size)
+        self.text_size=(Window.width)/2, None
 
-    #     self.bind(pos=self.update_rect)
-    #     self.bind(size=self.update_rect)
+#Classe para a descrição do ganho/retirada
+class Valor(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint_x=0.8
 
-    # def update_rect(self, *args):
-    #     self.rect.pos = self.pos
-    #     self.rect.size = self.size
+#Classe para a descrição do ganho/retirada
+class Sinal(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.size_hint_x=0.1
 
 #Classe para os botões da tela inicial
 class BtnImagensPrincipal(Button):
@@ -204,10 +205,10 @@ class Principal(Screen):
             pass
 
         #ScrollView
-        rolagem = ScrollView(pos_hint={"top": 0.70}, size_hint_y=0.66)
+        rolagem = ScrollView(pos_hint={"top": 0.72}, size_hint_y=0.70)
 
         #BoxLayout
-        layout = BoxLayout(size_hint_y=None, padding=(20,0), spacing=20)
+        layout = BoxLayout(size_hint_y=None, padding=(Window.width/20,0))
 
         #Pega os dados
         ganhos = db.retorna_ganhos_id(AppConfig.get_config("idConta"))
@@ -237,7 +238,6 @@ class Principal(Screen):
             layout.add_widget(Label(text="Não há movimentações", 
                                     size_hint_y=None, 
                                     font_size="14sp", 
-                                    height=dp(20),
                                     color=(.6,.6,.6,1)))
             #Salva o objeto Boxlayout
             self.box = layout
@@ -251,14 +251,12 @@ class Principal(Screen):
             grid = GridLayout(cols=3, size_hint_y=None)
             for movimentacao in tudo:
                 if movimentacao[5] =="g":
-                    sinal = Label(
+                    sinal = Sinal(
                         text=" + ",
-                        size_hint_x=0.05,
                         color=(0,.9,0,1)
                     )
-                    valor = Label(
-                        text=f" R${movimentacao[1]:.2f} ",
-                        size_hint_x=0.4
+                    valor = Valor(
+                        text=f" R${movimentacao[1]:.2f} "
                     )
                     desc = Desc(
                         text=f" {movimentacao[2]} "
@@ -267,14 +265,12 @@ class Principal(Screen):
                     grid.add_widget(valor)
                     grid.add_widget(desc)
                 else:
-                    sinal = Label(
+                    sinal = Sinal(
                         text=" - ",
-                        size_hint_x=0.1,
                         color=(.9,0,0,1)
                     )
-                    valor = Label(
-                        text=f" R${movimentacao[1]:.2f} ",
-                        size_hint_x=0.4
+                    valor = Valor(
+                        text=f" R${movimentacao[1]:.2f} "
                     )
                     desc = Desc(
                         text=f" {movimentacao[2]} "
@@ -298,7 +294,7 @@ class Principal(Screen):
             rolagem.add_widget(layout)
             #Salva o objeto ScrollView
             self.raiz = rolagem
-            self.add_widget(rolagem, index=2)
+            self.add_widget(rolagem, index=3)
     
     def criarMensagem(self, msg):
         label = Mensagem(text=msg)
