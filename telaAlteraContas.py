@@ -20,6 +20,8 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.popup import Popup
+from kivy.uix.modalview import ModalView
 from kivy.uix.button import Button
 from functools import partial
 from kivy.lang import Builder
@@ -85,11 +87,20 @@ class Linha(Label):
                 Color(.41, .58, .79, 1)
                 Rectangle(pos=self.pos, size=self.size)
 
+class ModalLayout(BoxLayout):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.padding=Window.width/20
+        self.canvas.clear()
+        self.canvas.before.clear()
+
+
 #CLASS KV
 class AlteraContas(Screen):
-    #Listas que armazenarão objetos da tela
-    raiz = []
-    box = []
+    #Objetos da tela criados no .py
+    raiz = None
+    box = None
+    modal=None
 
     #Torna a conta selecionada como a padrão, que será exibida na tela principal
     def tornaPadrao(self, *args):
@@ -101,6 +112,62 @@ class AlteraContas(Screen):
         self.manager.current_screen.atualizaSaldo()
         self.manager.current_screen.mostrarMovimentacoes()
 
+    def desejaExcluirConta(self, *args):
+        #Pergunta
+        layout = ModalLayout(
+                    size_hint_y=None
+                )
+        layout.add_widget(Label(
+                            text=f"Quer mesmo excluir a \nconta [i]{args[0]}[/i]?",
+                            markup=True,
+                            size_hint_y=None
+                        )
+        )
+
+        #Botões
+        layoutBtn = ModalLayout(
+            orientation ="horizontal",
+            size_hint_y=None,
+            spacing=Window.width/20
+
+        )
+
+        #Excluir
+        btnSIM = Button(
+            text='Sim', 
+            size_hint_y=None,
+            background_normal="imgs/btnVerde.png",
+            background_down="imgs/btnVerde02.png"
+        )
+        btnSIM.bind(on_press=partial(self.excluiConta, args[0]))
+        
+        #Não faz nada
+        btnNAO = Button(
+            text='Não', 
+            size_hint_y=None,
+            background_normal="imgs/bordaBotaoAtivoVermelho.png",
+            background_down="imgs/btnVermelho.png",
+            color=(0,0,0,1)
+        )
+
+        layoutBtn.add_widget(btnSIM)
+        layoutBtn.add_widget(btnNAO)
+
+        layout.add_widget(layoutBtn)
+
+        #Modal
+        view = ModalView(
+                size_hint=(0.58, 0.2),
+                height=40,
+                background="imgs/modalView.png")
+        view.add_widget(layout)
+        view.open()
+        self.modal = view
+
+        #Os dois botões fecham o modal
+        btnSIM.bind(on_press=self.modal.dismiss)
+        btnNAO.bind(on_press=self.modal.dismiss)
+
     #Exclue a conta selecionada 
     def excluiConta(self, *args):
         padrao = AppConfig.get_config("contaPadrao")
@@ -110,11 +177,7 @@ class AlteraContas(Screen):
         #Parece que tá errado, mas não tá
         conta = db.retorna_conta_nome(args[0])
         db.remove_conta_nome(conta[0])
-        self.manager.current="principal"
-        self.manager.transition.direction = "right"
-        self.manager.current_screen.criarMensagem('Conta excluida com sucesso')
-        self.manager.current_screen.atualizaSaldo()
-        self.manager.current_screen.mostrarMovimentacoes()
+        self.exibirContas()
 
     def exibirContas(self):
 
@@ -181,8 +244,8 @@ class AlteraContas(Screen):
                 
                 #Botão para excluir essa conta. Não há confirmação
                 btn2 = btnFunc(text='Excluir\nconta', size_hint_y=None)
-                #Ligação do botão com a função 'tornaPadrão()'
-                btn2.bind(on_press=partial(self.excluiConta, conta[1]))
+                #Ligação do botão com a função 'desejaExcluirConta()'
+                btn2.bind(on_press=partial(self.desejaExcluirConta, conta[1]))
                 Contas.add_widget(btn2)
 
                 #Adiciona o GridLayout que contem as contas
