@@ -27,7 +27,7 @@
 
     BoxLayout:
         size_hint_y: 1
-        #Esse spancing é do mesmo tamanho 
+        #Esse spacing é do mesmo tamanho 
         # que a altura da sombra
         spacing: root.width/100
         #Cabeçalho
@@ -112,7 +112,7 @@
                         id: layoutTipo
                         orientation: "horizontal"
                         size_hint: 1, None
-                        spacing: root.width/30
+                        spacing: root.width*0.1
                         #1
                         ToggleButton:
                             id: tipoI
@@ -141,8 +141,8 @@
 
                     #CampoCheckbox
                     Espacamento:
-                    BoxLayout:
-                        orientation: "horizontal"
+                    GridLayout:
+                        cols: 2
                         size_hint: 1, None
                         CheckBox:
                             
@@ -150,12 +150,11 @@
                             background_checkbox_normal: "imgs/checkbox_normal.png"
                             background_checkbox_down: "imgs/checkbox_down.png"
                             border: 0,0,0,0
-                            size_hint_x: 0.3, None
+                            size_hint_x: 0.3
                         Label:
                             text:'[ref=""]Tornar conta padrão[/ref]'
                             markup: True
-                            text_size: self.width, None
-                            size_hint_y: None
+                            size_hint: 0.7, None
                             height: self.texture_size[1]+dp(20)
                             on_ref_press:
                                 root.trocaCheck()

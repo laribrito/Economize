@@ -39,7 +39,6 @@ class AdicionaConta(Screen):
     #elementos da interface
     getNome = ObjectProperty(None)
     getPadrao = ObjectProperty(None)
-    layoutTipo = ObjectProperty(None)
     erroNome = ObjectProperty(None)
     erroTipo = ObjectProperty(None)
     tipoI = ObjectProperty(None)
