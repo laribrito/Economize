@@ -242,13 +242,6 @@ class Principal(Screen):
                                     size_hint_y=None, 
                                     font_size="14sp", 
                                     color=(.6,.6,.6,1)))
-            #Salva o objeto Boxlayout
-            self.box = layout
-            rolagem.add_widget(layout)
-            #Salva o objeto ScrollView
-            self.raiz = rolagem
-            #Esse número de index garante a posição correta
-            self.add_widget(rolagem, index=3)
         else:
             grid = GridLayout(cols=3, size_hint_y=None)
             for movimentacao in tudo:
@@ -291,18 +284,18 @@ class Principal(Screen):
                                     height=dp(20),
                                     color=(.6,.6,.6,1)))
 
-            #Salva o objeto Boxlayout
-            self.box = layout
-            rolagem.add_widget(layout)
-            #Salva o objeto ScrollView
-            self.raiz = rolagem
-            self.add_widget(rolagem, index=3)
+        #Salva o objeto Boxlayout
+        self.box = layout
+        rolagem.add_widget(layout)
+        #Salva o objeto ScrollView
+        self.raiz = rolagem
+        self.add_widget(rolagem, index=2)
     
     def criarMensagem(self, msg):
         layout = AnchorLayout(anchor_x='center', anchor_y= 'top', padding= Window.width/30)
         label = Mensagem(text=msg)
         layout.add_widget(label)
-        self.add_widget(layout)
+        self.add_widget(layout, index=4)
         #Identificador da mensagem para que a 
         # correta seja apagada
         #guarda na lista
@@ -325,3 +318,8 @@ class Principal(Screen):
         self.mostrarBotoes()
         return super().on_leave(*args)
         
+    def on_pre_enter(self, *args):
+        #Por causa da nova dinâmica da exclusão de uma conta
+        self.atualizaSaldo()
+        self.mostrarMovimentacoes()
+        return super().on_enter(*args)
