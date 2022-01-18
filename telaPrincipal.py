@@ -20,13 +20,16 @@ from kivy.uix.button import Button
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.anchorlayout import AnchorLayout
 from kivy.uix.label import Label
+from functools import partial
 from kivy.lang import Builder
 from kivy.core.window import Window
 from kivy.clock import Clock
 from kivy.graphics import Color, RoundedRectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
+from kivy.animation import Animation
 from telaAlteraContas import NomeC
 
 #carrega a tela .kv correspondente
@@ -84,11 +87,11 @@ class Principal(Screen):
     #Listas que armazenarão objetos da tela
     raiz = []
     box = []
+    mensagens = []
 
     #Elementos da interface
     setSaldo = ObjectProperty(None)
     setConta = ObjectProperty(None)
-    setMensagem = ObjectProperty(None)
     boxBotoes = ObjectProperty(None)
 
     estadoBotao = False
@@ -244,8 +247,7 @@ class Principal(Screen):
             rolagem.add_widget(layout)
             #Salva o objeto ScrollView
             self.raiz = rolagem
-            #Esse número de index garante a posição correta, 
-            # antes do widget "setMensagem"
+            #Esse número de index garante a posição correta
             self.add_widget(rolagem, index=3)
         else:
             grid = GridLayout(cols=3, size_hint_y=None)
@@ -297,20 +299,29 @@ class Principal(Screen):
             self.add_widget(rolagem, index=3)
     
     def criarMensagem(self, msg):
+        layout = AnchorLayout(anchor_x='center', anchor_y= 'top', padding= Window.width/30)
         label = Mensagem(text=msg)
-        self.setMensagem.add_widget(label)
-        Clock.schedule_once(self.limpaMensagens, AppConfig.tempoLimpar)
+        layout.add_widget(label)
+        self.add_widget(layout)
+        #Identificador da mensagem para que a 
+        # correta seja apagada
+        #guarda na lista
+        self.mensagens.append(layout)
+        #recebe o id
+        id = AppConfig.idMsg
+        #agenda a animação para sumir
+        Clock.schedule_once(partial(self.limpaMensagens, id), AppConfig.tempoLimpar)
+        #incrementa o id para a próxima mensagem
+        AppConfig.idMsg+=1
 
-    def limpaMensagens(self, dt):
-        self.setMensagem.clear_widgets()
+    def limpaMensagens(self, id, dt):
+        anim = Animation(y=100,duration=0.5)
+        anim.start(self.mensagens[id])
 
     def on_leave(self, *args):
         #Fecha o menu da tela principal
         # como ele já trocou o 'estadoBotao',
         # só basta recarregar o método
-        self.mostrarBotoes()  
-
-        #Limpa as mensagens de erro
-        self.setMensagem.clear_widgets()
+        self.mostrarBotoes()
         return super().on_leave(*args)
         
