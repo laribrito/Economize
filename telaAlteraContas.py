@@ -207,7 +207,7 @@ class AlteraContas(Screen):
         #BoxLayout
         #Ele é necessário por causa da mensagem final e 
         # da mensagem para nenhuma conta cadastrada
-        layout = BoxLayout(size_hint_y=None, padding=(20,0), spacing=20)
+        layout = BoxLayout(size_hint_y=None, padding=(Window.width/20,0), spacing=20)
         
         #Busca as contas cadastradas no banco de dados
         contas = db.retorna_contas()
