@@ -30,6 +30,7 @@ from kivy.graphics import Color, RoundedRectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
 from kivy.animation import Animation
+#Esse import é usado no arquivo .kv
 from telaAlteraContas import NomeC
 
 #carrega a tela .kv correspondente
@@ -72,13 +73,13 @@ class Desc(Label):
         super().__init__(**kwargs)
         self.text_size=(Window.width)/2, None
 
-#Classe para a descrição do ganho/retirada
+#Classe para o valor do ganho/retirada
 class Valor(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.size_hint_x=0.8
 
-#Classe para a descrição do ganho/retirada
+#Classe para o sinal do ganho/retirada
 class Sinal(Label):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -106,6 +107,8 @@ class Principal(Screen):
 
     estadoBotao = False
 
+    #Método que monta e exibe os botões, ou que deixa de exibir
+    # ~Comportamento de um toggleButton~
     def mostrarBotoes(self):
         if self.estadoBotao:
             #Se o estado for True, limpa a tela
@@ -149,14 +152,15 @@ class Principal(Screen):
         #Troca o estado do botão
         self.estadoBotao = not self.estadoBotao
 
+    #Método para alterar a tela
+    # ~Tela alteraContas~
     def telaContas(self,*args):
         #Muda de tela
         self.manager.current="alteraContas"
         self.manager.transition.direction="left"
         self.manager.current_screen.exibirContas()
 
-        #O método que estava aqui será chamado pelo evento on_leave() 
-
+    #Método que verifica se há uma conta padrão e exibe o que for devido
     def atualizaSaldo(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
             dados = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
@@ -167,6 +171,8 @@ class Principal(Screen):
             self.setSaldo.text = "Olá!"
             self.setConta.text = ""
 
+    #Método para alterar a tela
+    #~Tela adicionaGanho~
     def podeAdicionarGanho(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
             #Muda de tela
@@ -179,6 +185,8 @@ class Principal(Screen):
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.criarMensagem("Para adicionar um ganho é\nnecessário uma conta padrão.")
     
+    #Método para alterar a tela
+    #~Tela adicionaRetirada~
     def podeAdicionarRetirada(self, *args):
         if AppConfig.get_config("contaPadrao") != "":
             conta = db.retorna_conta_nome(AppConfig.get_config("contaPadrao"))
@@ -196,6 +204,7 @@ class Principal(Screen):
             #ERRO: Não tem uma conta como padrão para receber a transação
             self.criarMensagem("Para adicionar uma retirada é\nnecessário uma conta padrão")
     
+    #Método que monta e exibe as movimentações da conta padrão
     def mostrarMovimentacoes(self):
         #Para que a tela apareça de forma correta é necessário 
         # limpar a tela antes de carrega-la de novo
@@ -294,6 +303,7 @@ class Principal(Screen):
         self.raiz = rolagem
         self.add_widget(rolagem, index=2)
     
+    #Método para enviar uma mensagem ao usuário 
     def criarMensagem(self, msg):
         layout = AnchorLayout(anchor_x='center', anchor_y= 'top', padding= Window.width/30)
         label = Mensagem(text=msg)
@@ -310,17 +320,20 @@ class Principal(Screen):
         #incrementa o id para a próxima mensagem
         AppConfig.idMsg+=1
 
+    #Método que apaga a mensagem enviada ao usuário
     def limpaMensagens(self, id, dt):
         anim = Animation(y=Window.width/2,duration=0.5)
         anim.start(self.mensagens[id])
 
+    #Esse é um evento disparado quando sai dessa tela
     def on_leave(self, *args):
         #Fecha o menu da tela principal
         # como ele já trocou o 'estadoBotao',
         # só basta recarregar o método
         self.mostrarBotoes()
         return super().on_leave(*args)
-        
+    
+    #Esse é um evento disparado um pouco antes de entrar nessa tela
     def on_pre_enter(self, *args):
         #Por causa da nova dinâmica da exclusão de uma conta
         self.atualizaSaldo()

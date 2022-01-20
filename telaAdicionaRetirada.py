@@ -32,9 +32,8 @@ from model import db
 #Importa as configurações gerais do sistema
 from appConfig import AppConfig
 
-#Essa classe foi criada para manter a tela inicial 
-# organizada . Ela limita a entrada da descrição a 
-# 35 caracteres
+#Classe para manter a tela inicial organizada. 
+# Ela limita a entrada da descrição a 35 caracteres
 class LimitInputRetirada(TextInput):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -107,7 +106,6 @@ class AdicionaRetirada(Screen):
                 #Remove a letra digitada
                 correcao=centavos[:-1]
                 self.getValor.text = correcao
-        
 
     #Método para adicionar uma retirada
     def adicionaRetirada(self, valor, descricao):
@@ -161,6 +159,8 @@ class AdicionaRetirada(Screen):
             self.manager.current_screen.atualizaSaldo()
             self.manager.current_screen.mostrarMovimentacoes()
     
+    #Método para limpar as mensagens inline do form
+    # cada tipo corresponde a um campo
     def limpaMensagens(self, tipo, dt):
         if tipo==0:
             self.erroValor.text = " "
@@ -174,14 +174,17 @@ class AdicionaRetirada(Screen):
         self.getDescricao.text=""
         return super().on_leave(*args)
 
+    #Esse é um evento disparado quando o app entra nessa tela
     def on_enter(self, *args):
         self.getValor.focus=True
         #POR UM bug QUE APARECEU 
-        #Joga o cursor para o final do textInput
+         #É preciso jogar o cursor para o final do textInput,
         #  contra o que o do_backspace faz
         Clock.schedule_interval(self.eventoCursorValor, 0.01)
         return super().on_enter(*args)
     
+    #Joga o cursor para o final do textInput,
+    #  contra o que o do_backspace faz
     def eventoCursorValor(self, *args):
         self.getValor.do_cursor_movement('cursor_end')
     

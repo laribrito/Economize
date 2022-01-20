@@ -120,11 +120,6 @@ def retorna_contas():
     con = get_db()
     return con.execute("SELECT * FROM contas").fetchall()
 
-# #retorna uma conta pelo id
-# def retorna_conta_id(id):
-#     con = get_db()
-#     return con.execute("SELECT * FROM contas WHERE id_conta = ?", [id]).fetchone()
-
 #retorna uma conta pelo nome
 def retorna_conta_nome(nome):
     con = get_db()

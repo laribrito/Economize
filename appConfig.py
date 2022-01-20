@@ -4,7 +4,12 @@ Classe AppConfig.
 Esta classe será responsável por manipular algumas configurações da aplicação.
 Estas configurações serão salvas no arquivo config.json no mesmo diretório da aplicação.
 
-Altere o atributo 'servidor' desta classe para indicar o endereço do web service.
+Novos tipo de conta serão adicionados no fim da lista "tipos"
+
+"tempoLimpar" é o tempo em segudos que as mensagens ficarão exibidas na tela
+
+"idMsg" é o identificador para cada mensagem exibida no app. Dessa forma a mensagem 
+correta pode ser apagada
 
 obs.: Basicamente eu copiei esse arquivo do repositório do meu prof e vou estudar a lógica 
 por trás desse arquivo. Obrigada JP!
@@ -61,7 +66,7 @@ class AppConfig:
     Retorna um valor da configuração.
 
     O valor é buscado pela chave do dicionário. Se a chave não
-    existir no dicionário, retorna None.
+    existir no dicionário, retorna vazio("").
     '''
     def get_config(chave):
         # Antes verifica se o arquivo já foi carregado

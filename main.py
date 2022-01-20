@@ -1,9 +1,6 @@
 from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 
-#importa configurações gerais
-#from appConfig import AppConfig
-
 class MyApp(App):
     def build(self):
         sm = ScreenManager()

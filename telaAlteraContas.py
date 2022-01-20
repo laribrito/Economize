@@ -96,7 +96,6 @@ class ModalLayout(BoxLayout):
         self.canvas.clear()
         self.canvas.before.clear()
 
-
 #CLASS KV
 class AlteraContas(Screen):
     #Objetos da tela criados no .py
@@ -104,7 +103,7 @@ class AlteraContas(Screen):
     box = None
     modal=None
 
-    #Torna a conta selecionada como a padrão, que será exibida na tela principal
+    #Método que torna a conta selecionada como a padrão, que será exibida na tela principal
     def tornaPadrao(self, *args):
         AppConfig.set_config("contaPadrao", args[0])
         AppConfig.set_config("idConta", args[1])
@@ -114,6 +113,7 @@ class AlteraContas(Screen):
         self.manager.current_screen.atualizaSaldo()
         self.manager.current_screen.mostrarMovimentacoes()
 
+    #Método que abre um modal
     def desejaExcluirConta(self, *args):
         #Pergunta
         layout = ModalLayout(
@@ -170,7 +170,7 @@ class AlteraContas(Screen):
         btnSIM.bind(on_press=self.modal.dismiss)
         btnNAO.bind(on_press=self.modal.dismiss)
 
-    #Exclue a conta selecionada 
+    #Método que exclue a conta selecionada 
     def excluiConta(self, *args):
         padrao = AppConfig.get_config("contaPadrao")
         if args[0] == padrao:
@@ -181,6 +181,7 @@ class AlteraContas(Screen):
         db.remove_conta_nome(conta[0])
         self.exibirContas()
 
+    #Método que monta e exibe as contas  cadastradas
     def exibirContas(self):
 
         #Para que a tela apareça de forma correta é necessário 

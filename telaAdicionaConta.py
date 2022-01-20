@@ -44,7 +44,7 @@ class AdicionaConta(Screen):
     tipoI = ObjectProperty(None)
     tipoII = ObjectProperty(None)
     tipoIII = ObjectProperty(None)
-    #Conjunto de botões de tipo de conta
+    #Conjunto de botões dos tipo de conta
     # que será montado no on_enter()
     # para poder limpa-los no on_leave()
     tiposInterface = []
@@ -132,6 +132,8 @@ class AdicionaConta(Screen):
         novoValor = not antigoValor 
         self.getPadrao.active = novoValor
 
+    #Método para limpar as mensagens inline do form
+    # cada tipo corresponde a um campo
     def limpaMensagens(self, tipo, dt):
         if tipo==0:
             self.erroNome.text = " "
@@ -150,7 +152,8 @@ class AdicionaConta(Screen):
             i.color=(0,0,0,1)
         self.tiposInterface.clear()
         return super().on_leave(*args)
-        
+    
+    #Esse é um evento disparado quando o app entra nessa tela
     def on_enter(self, *args):
         self.getNome.focus=True
         #Monta a lista com os botões de tipo
@@ -158,7 +161,6 @@ class AdicionaConta(Screen):
         self.tiposInterface.append(self.tipoII)
         self.tiposInterface.append(self.tipoIII)
         return super().on_enter(*args)
-
     
     #Esse trio de funções serve para a utilização correta
     # da tecla "esc" e do botão voltar do android
