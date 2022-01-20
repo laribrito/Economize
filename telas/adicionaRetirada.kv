@@ -117,6 +117,8 @@
                         text: "R$ 0.00"
                         on_text:
                             root.adicionarMascara(getValor.text)
+                        on_text_validate:
+                            getDescricao.focus=True
                     ErroCampo:
                         id: erroValor
                     Espacamento:
@@ -133,6 +135,8 @@
                         hint_text: "Onde você gastou esse dinheiro?"
                         on_text:
                             root.atualizaNumDescricao(getDescricao.text)
+                        on_text_validate:
+                            root.adicionaRetirada(getValor.text, getDescricao.text)
                     BoxLayout:
                         orientation: "horizontal"
                         size_hint_y: None
