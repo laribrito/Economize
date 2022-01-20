@@ -32,7 +32,32 @@
     size_hint_y: None
     #Tamanho padrão do label
     font_size: "20sp"
+    #Alinhamento
     haling: "center"
+    #Família 
+    font_name: 'Roboto'
+
+<Titulo@Label>
+    font_size: "24sp"
+
+<Saldo@Label>
+    font_size: "16sp"
+    height: self.texture_size[1]
+
+<Conta@Label>
+    font_size: "15sp"
+    height: self.texture_size[1]
+
+<LabelDesc@Label>
+    text: '0/35'
+    size_hint_x: 0.3
+    height: self.texture_size[1]
+    haling: "right"
+    text_size: self.width, None
+    color: (.6,.6,.6,1)
+    font_size: "15sp"
+    halign: "right"
+    padding: root.width/70,0
 
 <Mensagem@Label>
     size: self.texture_size
@@ -40,7 +65,7 @@
     padding: (10, 5)
     texture_size: self.size
     halign: "center"
-    font_size: 18
+    font_size: "16sp"
 
 <Espacamento@Label>
     height: self.texture_size[1]
@@ -54,7 +79,7 @@
     haling: "left"
     text_size: self.width, None
     color: (.6,0,0,1)
-    font_size: 14
+    font_size: "15sp"
     padding: root.width/70,0
 
 ##################################################################################
@@ -122,6 +147,8 @@
     cursor_color: (0,0,0,1)
     #Imagem normal
     background_normal: "imgs/bordaBotao.png"
+    #tamanho da fonte
+    font_size: "18sp"
 
 <InputConta@TextInput>
     #Imagem no foco

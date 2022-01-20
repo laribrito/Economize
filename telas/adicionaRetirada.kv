@@ -73,7 +73,7 @@
             AnchorLayout:
                 anchor_y: "center"
                 anchor_x: 'center'
-                Label:
+                Titulo:
                     text:'Saída'
 
             #Saldo
@@ -89,16 +89,12 @@
                             pos: self.pos
                             size: self.size
                     size_hint: None, None
-                    Label:
+                    Saldo:
                         id: setSaldo
                         text: " "
-                        font_size: "16sp"
-                        height: self.texture_size[1]
-                    Label:
+                    Conta:
                         id: setConta
                         text: " "
-                        font_size: "14sp"
-                        height: self.texture_size[1]
         #Formulário
         BoxLayout:
             #Distância das laterais
@@ -142,17 +138,8 @@
                         size_hint_y: None
                         ErroCampo:
                             id: erroDesc
-                        Label:
+                        LabelDesc:
                             id: labelDesc
-                            text: '0/35'
-                            size_hint_x: 0.3
-                            height: self.texture_size[1]
-                            haling: "right"
-                            text_size: self.width, None
-                            color: (.6,.6,.6,1)
-                            font_size: 14
-                            halign: "right"
-                            padding: root.width/70,0
                     Espacamento:
         #Botão adicionar
         BoxLayout:

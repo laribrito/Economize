@@ -41,6 +41,16 @@ from model import db
 #importa as configurações gerais do sistema
 from appConfig import AppConfig
 
+#Classe para as mensagens pequenas que aparecem
+# no fim scrollview
+class Final(Label):
+        def __init__(self, **kwargs):
+            super().__init__(**kwargs)
+            self.font_size="13sp"
+            self.size_hint_y=None
+            self.height=dp(20)
+            self.color=(.6,.6,.6,1)
+
 #Classe para as mensagens de erro
 class Mensagem(Label):
     def __init__(self, **kwargs):
@@ -238,10 +248,7 @@ class Principal(Screen):
         tudo.sort(key=lambda x: x[4], reverse=True)
 
         if len(tudo) == 0:
-            layout.add_widget(Label(text="Não há movimentações", 
-                                    size_hint_y=None, 
-                                    font_size="14sp", 
-                                    color=(.6,.6,.6,1)))
+            layout.add_widget(Final(text="Não há movimentações"))
         else:
             grid = GridLayout(cols=3, size_hint_y=None)
             for movimentacao in tudo:
@@ -278,11 +285,7 @@ class Principal(Screen):
             layout.add_widget(grid)
 
             #Marca o fim da lista
-            layout.add_widget(Label(text="Fim", 
-                                    size_hint_y=None, 
-                                    font_size="14sp", 
-                                    height=dp(20),
-                                    color=(.6,.6,.6,1)))
+            layout.add_widget(Final(text="Fim"))
 
         #Salva o objeto Boxlayout
         self.box = layout
@@ -308,7 +311,7 @@ class Principal(Screen):
         AppConfig.idMsg+=1
 
     def limpaMensagens(self, id, dt):
-        anim = Animation(y=100,duration=0.5)
+        anim = Animation(y=Window.width/2,duration=0.5)
         anim.start(self.mensagens[id])
 
     def on_leave(self, *args):

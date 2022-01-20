@@ -30,6 +30,7 @@ from kivy.core.window import Window
 from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
+import telaPrincipal as tp
 
 #Carrega a tela .kv correspondente
 Builder.load_file("telas/alteraContas.kv")
@@ -46,6 +47,7 @@ class NomeC(Label):
         def on_size(self, *args):
             self.canvas.before.clear()
             self.height=dp(40)
+            self.font_size="22sp"
             self.text_size=self.width-dp(50), dp(40)
             self.valign="center"
             self.size_hint_y= None
@@ -72,7 +74,7 @@ class btnFunc(Button):
             self.size_hint_x=0.5
             # self.height=dp(40)
             self.halign="center"
-            self.font_size=16
+            self.font_size="16sp"
             self.background_normal= "imgs/btnAzul02.png"
             self.background_down= "imgs/btnAzul02.png"
                         
@@ -255,11 +257,7 @@ class AlteraContas(Screen):
                 layout.add_widget(Linha(text=" "))       
             
             #Marca o fim da lista
-            layout.add_widget(Label(text="Fim", 
-                                    size_hint_y=None, 
-                                    font_size="14sp", 
-                                    height=dp(20),
-                                    color=(.6,.6,.6,1)))
+            layout.add_widget(tp.Final(text="Fim"))
 
         #Salva o objeto Boxlayout
         self.box = layout
