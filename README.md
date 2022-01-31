@@ -2,7 +2,7 @@
  <img src='.imagens/icone.png' width=150>
 </div>
 <h1 align="center">Economize!</h1>
-<p align="center">Aplicativo Android feito em Kivy para controlar gastos de forma mais simples e objetiva</p>
+<p align="center">Aplicativo Android feito em Kivy para controlar gastos de forma simples e objetiva</p>
 
 
 <p align="center">
@@ -23,31 +23,68 @@
 Os aplicativos disponíveis são ótimos (mesmo usando a versão gratuita), mas aqueles gráficos e a quantidade absurda de funções estava me distraindo mais que ajudando. Visto isso, o Economize! vem como uma ferramenta objetiva e simples de acompanhar os gastos!
 
 <h2 id='requisitos'> Pré-requisitos e run </h2>
-Se quiser rodar em seu **Computador** você vai seguir os seguintes passos:
+
+Se quiser rodar em seu **computador**, você vai seguir os seguintes passos:
+
+* <h3>Para distros linux</h3>
 
 **1. Ativar o ambiente virtual**
 
-  Na pasta principal do programa, rodar: 
+  Na pasta principal do programa, rodar no terminal: 
 
-* **Para distros linux**
   ```
-  source ./bin/activate
+  source ./venv/bin/activate
   ```
-
-* **Para windows**
-  ```
-  outra coisa
-  ```
-
-
+  
 **2. Rodar o programa**
 
-  Com o ambiente virtual ativado, rodar:
+  Com o ambiente virtual ativado, rodar no terminal:
 
   ```
   python main.py -m screen:phone_nexus_5,scale=.4,portrait
   ```
+  
+<hr>
 
+* <h3>Para windows</h3>
+
+**1. Ativar o ambiente virtual**
+
+  Na pasta principal do programa, rodar no terminal: 
+
+  ```
+  venv-wind\Scripts\activate
+  ```  
+  *Obs.: Recomendo usar o cmd, e não o powershell*
+  
+**2. Rodar o programa**
+
+  Com o ambiente virtual ativado, rodar no terminal:
+
+  ```
+  py main.py -m screen:phone_nexus_5,scale=.4,portrait
+  ```
+  
+<hr>
+
+* <h3>Git Bash no window</h3>
+
+**1. Ativar o ambiente virtual**
+
+  Na pasta principal do programa, rodar no terminal: 
+
+  ```
+  source venv-wind/Scripts/activate
+  ```
+  
+**2. Rodar o programa**
+
+  Com o ambiente virtual ativado, rodar no terminal:
+
+  ```
+  py main.py -m screen:phone_nexus_5,scale=.4,portrait
+  ```
+  
 Se desejar rodar em seu **celular**, basta ir [nas nossas tags](https://github.com/laribrito/Economize/releases) para visualizar as releases existentes, baixar e instalar em seu aparelho.
 <br> *Obs.: Somente ANDROID*
 
@@ -60,10 +97,10 @@ Se desejar rodar em seu **celular**, basta ir [nas nossas tags](https://github.c
 
 <h2 id='tecnologias'>Tecnologias</h2>
 
-As seguintes ferramentas foram usadas na construção do projeto:
+As seguintes ferramentas estão sendo usadas no projeto:
 
 - [Kivy 2.0.0](https://kivy.org/#home)
-- [Python 3.6.9](https://www.python.org/)
+- [Python 3.9.10](https://www.python.org/)
 
 
 <h2 id='autor'> Autora </h2>
