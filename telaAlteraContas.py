@@ -221,7 +221,7 @@ class AlteraContas(Screen):
         listaTipos = AppConfig.tipos
 
         if quant == 0:
-            layout.add_widget(Label(text="Não há contas cadastradas ainda", size_hint_y=None))
+            layout.add_widget(tp.Final(text="Não há contas cadastradas ainda", size_hint_y=None))
         else:
             #Adiciona os widgets à tela
             for ind, conta in enumerate(contas):
@@ -233,7 +233,7 @@ class AlteraContas(Screen):
                 Contas = GridLayout(cols=2, size_hint_y=None, spacing=10, padding=(0,20))
                 
                 #Saldo da conta
-                Contas.add_widget(Info(text=f"R$ {conta[3]:.2f}", size_hint_y=None))
+                Contas.add_widget(Info(text=f"R$ {conta[3]:.2f}"))
 
                 #Botão para tornar essa conta a conta padrão
                 btn = btnFunc(text='Tornar\npadrão', size_hint_y=None)
@@ -243,7 +243,7 @@ class AlteraContas(Screen):
 
                 #Tipo da conta
                 TextoTipo = listaTipos[conta[2]-1]
-                Contas.add_widget(Info(text=f"{TextoTipo}", color=(.4, .4, .4, 1), size_hint_y=None))
+                Contas.add_widget(Info(text=f"{TextoTipo}", color=(.4, .4, .4, 1)))
                 
                 #Botão para excluir essa conta. Não há confirmação
                 btn2 = btnFunc(text='Excluir\nconta', size_hint_y=None)
