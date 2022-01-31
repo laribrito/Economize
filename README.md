@@ -90,7 +90,7 @@ Se desejar rodar em seu **celular**, basta ir [nas nossas tags](https://github.c
 
 <h2 id='galeria'>Galeria v1.2.0</h2>
 
-|<p>• Tela de inicio com botões à mostra</p> <img src='.imagens/inicio.jpg'   height='500'>|<p>• Tela de inicio depois do uso</p> <img src='.imagens/inicio02.jpg' height='500'>| <p>• Tela para gerenciar as contas<br>cadastradas</p> <img src='.imagens/contas.jpg'   height='500'> |
+|<p>• Tela de inicio com botões<br>à mostra</p> <img src='.imagens/inicio.jpg'   height='500'>|<p>• Tela de inicio depois<br>do uso</p> <img src='.imagens/inicio02.jpg' height='500'>| <p>• Tela para gerenciar as contas<br>cadastradas</p> <img src='.imagens/contas.jpg'   height='500'> |
 |----------------|-------------------------------|-----------------------------|
 |<p><b>• Tela para adicionar um ganho</b></p> <img src='.imagens/ganho.jpg'    height='500'>| <p><b>• Tela para adicionar uma retirada</b></p> <img src='.imagens/retirada.jpg' height='500'> | <p><b>• Tela para adicionar uma conta</b></p> <img src='.imagens/conta.jpg' height='500'>|
 
