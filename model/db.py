@@ -24,19 +24,26 @@ along with Economize!.  If not, see <https://www.gnu.org/licenses/>.
 
 #################################CONEXÕES############################
 import os
+import platform
+
 #Recebe o caminho onde este arquivo está
 app_path = os.path.dirname(os.path.abspath(__file__))
-
+print(app_path)
 #Seleciona a última pasta
 ultima = os.path.basename(os.path.normpath(app_path))
 
 #Remove a última palavra (equivalente a sair de uma pasta)
-app_path = app_path.replace(f"/{ultima}", "")
+#DE ACORDO COM O SISTEMA
+app_path = app_path.replace(f"\{ultima}", "") if platform.system() == "Windows" else app_path.replace(f"/{ultima}", "")
+print(app_path)
 
 #Repete o processo para sair da pasta do aplicativo 
 # e salvar o aquivo de dados fora
 ultima = os.path.basename(os.path.normpath(app_path))
-app_path = app_path.replace(ultima, "")
+app_path = app_path.replace(f"\{ultima}", "") if platform.system() == "Windows" else app_path.replace(f"/{ultima}", "")
+print(app_path)
+
+print(platform.system())
 
 dataCon=None
 #Abre o banco de dados
